@@ -2,75 +2,143 @@
 session_start();
 require("./include/config.php");
 ?>
+
+
+<?php
+
+$mois = date('m');
+$annee = date('Y');
+$jour = date('D/d');
+
+
+?>
+
+
+<html>
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/signup.css">
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <!-- FONT AWESOME -->
-    <script src="https://kit.fontawesome.com/9a09d189de.js" crossorigin="anonymous"></script>
-
-    <title>Inscription</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <title>Calendrier</title>
 </head>
+
 
 <body>
 
-    <header>
-        <img src="../assets/mysql-logo.png" alt="logo">
-        <nav>
-            <?php require('./include/header-include.php') ?>
-        </nav>
-    </header>
+    <div>
+        <img id="prev" src="../img/fleche_gauche.png" height="40px" width="40px" style="float:left;" />
+        <img id="next" src="../img/fleche_droite.png" height="40px" width="40px" style="float:right;" />
+    </div>
 
-    <main>
+    <div id="content">
+    </div>
 
-        <form method="POST" action="">
-            <h3>Sign Up</h3>
+    <table>
+        <tr>
+            <th>
+                Horaires
+            </th>
+            <th>Lundi
+                <?= $jour ?>
+            </th>
+            <th>
+                Mardi
+                <?= $jour ?>
+            </th>
+            <th>
+                Mercredi
+                <?= $jour ?>
+            </th>
+            <th>
+                Jeudi
+                <?= $jour ?>
+            </th>
+            <th>
+                Vendredi
+                <?= $jour ?>
+            </th>
+            <th>
+                Samedi
+                <?= $jour ?>
+            </th>
+            <th>
+                Dimanche
+                <?= $jour ?>
+            </th>
 
-            <label for="login">Login</label>
-            <input type="text" id="login" name="login" placeholder="Login" required autofocus autocomplete="off">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <label for="cpassword">Confirmation</label>
-            <input type="password" id="cpassword" name="cpassword" placeholder="Confirmation" required>
-            <?php
-            if (isset($_POST['envoi'])) {
-                $login = htmlspecialchars($_POST['login']);
-                $password = $_POST['password']; // md5'() pour crypet le mdp
-                $cpassword = $_POST['cpassword']; // md5'() pour crypet le mdp
+        </tr>
 
-                $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
-                $recupUser->execute([$login]);
+        <tr>
+            <th>créneau horaire</th>
+        </tr>
+        <tr>
+            <th>créneau horaire</th>
+        </tr>
+        <tr>
+            <th>créneau horaire</th>
+        </tr>
+        <tr>
+            <th>créneau horaire</th>
+        </tr>
+    </table>
 
-                if (empty($login) || empty($password) || empty($cpassword)) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez complétez tous les champs.</p>";
-                } elseif (!preg_match("#^[a-z0-9]+$#", $login)) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
-                } elseif ($password != $cpassword) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLes deux mots de passe sont differents.</p>";
-                } elseif ($recupUser->rowCount() > 0) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
-                } else {
-                    $insertUser = $bdd->prepare("INSERT INTO utilisateurs(login, password)VALUES(?,?)");
-                    $insertUser->execute([$login, $password]);
-                    header("Location: connexion.php");
-                }
+    <?php
+    $nombre_de_jour = cal_days_in_month(CAL_GREGORIAN, $mois, $annee);
+
+    echo "<table>";
+
+    echo "<tr><th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th></tr>";
+
+    for ($i = 1; $i <= $nombre_de_jour; $i++) {
+
+        $jour = cal_to_jd(CAL_GREGORIAN, $mois, $i, $annee);
+        $jour_semaine = JDDayOfWeek($jour);
+
+        if ($i == $nombre_de_jour) {
+
+            if ($jour_semaine == 1) {
+                echo "<tr>";
             }
-            ?>
-            <input type="submit" name="envoi" id="button" value="Sign Up">
-        </form>
-    </main>
 
-    <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
+            echo "<td class='case'>" . $i . "</td></tr>";
+        } elseif ($i == 1) {
+
+            echo "<tr>";
+
+            if ($jour_semaine == 0) {
+                $jour_semaine = 7;
+            }
+
+            for ($k = 1; $k != $jour_semaine; $k++) {
+                echo "<td></td>";
+            }
+
+            echo "<td class='case'>" . $i . "</td>";
+
+            if ($jour_semaine == 7) {
+                echo "</tr>";
+            }
+        } else {
+
+            if ($jour_semaine == 1) {
+                echo "<tr>";
+            }
+
+            echo "<td class='case'>" . $i . "</td>";
+
+            if ($jour_semaine == 0) {
+                echo "</tr>";
+            }
+        }
+    }
+
+    echo "</table>";
+    ?>
+
+
+
+
 </body>
 
 </html>
