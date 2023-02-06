@@ -23,6 +23,7 @@ require("./include/config.php");
 </head>
 
 <body>
+
     <header>
         <img src="../assets/mysql-logo.png" alt="logo">
         <nav>
