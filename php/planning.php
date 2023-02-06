@@ -31,6 +31,7 @@ require("./include/config.php");
     </header>
 
     <main>
+        <table></table>
     </main>
 
     <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
