@@ -37,7 +37,7 @@ require "./php/include/config.php"
             }
             ?>
         </h1>
-        <style>
+        <!-- <style>
             h1 {
                 text-align: center;
                 font-size: 5rem;
@@ -49,7 +49,7 @@ require "./php/include/config.php"
                     font-size: 3rem;
                 }
             }
-        </style>
+        </style> -->
     </main>
     <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
 </body>
