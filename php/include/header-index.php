@@ -2,7 +2,7 @@
 if (isset($_SESSION['login'])) {
     echo '<a href="./index.php">Accueil</a>';
     echo '<a href="./php/profil.php">Profil</a>';
-    echo '<a href="./php/reservation-form.php">Nouvelle réservation</a>';
+    echo '<a href="./php/reservation-form.php">Nouvelle rÃ©servation</a>';
     echo '<a href="./php/planning.php">Planning</a>';
     if ($_SESSION["login"] == "admin") {
         echo '<a href="./php/admin.php">Admin</a>';
