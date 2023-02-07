@@ -75,18 +75,19 @@ for($ligne =8; $ligne <= 19; $ligne++ )
     				echo "<td>";
 				foreach($resultat as $value){
 
-	// $id=$value[0];
+	$id=$value['id'];
 					$jour=date("w", strtotime($value['debut']));
 					$heure=date("H", strtotime($value['debut']));
 				
 					if($heure==$ligne && $jour== $colonne)
 						{
-                        echo"$value[login]<br>$value[titre]";
-						// echo"<a href=\"reservation.php?id=".$id."\">$value[0]<br>$value[2]</a>";
+                        // echo"$value[login]<br>$value[titre]";
+						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
 											
 						}
 						else{
-							//echo "non";
+							// echo "vide";
+                            // break;
 						}
 												
 		}

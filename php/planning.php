@@ -2,6 +2,11 @@
 session_start();
 require("./include/config.php");
 
+$requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
+$requete_resa->execute();
+$resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
+
+
 $duration = 60;
 $cleanup = 0;
 $start = "08:00";
@@ -80,7 +85,7 @@ function timeslots($duration, $cleanup, $start, $end)
                         <h2><?php ?></h2>
                         <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year; ?>">Pre Week</a> <!--Previous week-->
                         <a class="btn btn-primary btn-xs" href="planning.php">Current Week</a> <!--Current week-->
-                        <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a> <!--Next week-->
+                        <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a> Next week
                     </center>
 
 
@@ -98,37 +103,41 @@ function timeslots($duration, $cleanup, $start, $end)
                             } while ($week == $dt->format('W'));
                             ?>
                         </tr>
-                        <?php $timeslots = timeslots($duration, $cleanup, $start, $end);
-                        foreach ($timeslots as $ts) {
+                        <?php
+// boucle pour la colonne des heures
+for($ligne =8; $ligne <= 19; $ligne++ )
+{
+		echo '<tr>';
+		echo "<td>".$ligne."h</td>";
+// boucle pour la ligne des jours de la semaine
+  	for($colonne = 1; $colonne <= 7; $colonne++)
+  	{
+    				echo "<td>";
+				foreach($resultat as $value){
+
+	$id=$value['id'];
+					$jour=date("w", strtotime($value['debut']));
+					$heure=date("H", strtotime($value['debut']));
+				
+					if($heure==$ligne && $jour== $colonne)
+						{
+                        // echo"$value[login]<br>$value[titre]";
+						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
+											
+						}
+						else{
+							// echo "vide";
+                            // break;
+						}
+												
+		}
+		echo '</td>';
+	}
+		echo '</tr>';			
+}
+
+
                         ?>
-                            <tr>
-                                <td>
-                                    <?= $ts; ?>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <td>
-                                    <p class=""><?= $ts; ?></p>
-                                </td>
-                                <!-- <td><button class="btn btn-success btn-xs">
-                                    <?php //echo $ts; 
-                                    ?></button>
-                                </td> -->
-                            </tr>
-                        <?php } ?>
                     </table>
                 </div>
             </div>
