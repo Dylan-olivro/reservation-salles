@@ -91,6 +91,7 @@ function timeslots($duration, $cleanup, $start, $end)
 
                     <table class="table table-bordered">
                         <tr class="success">
+                            <td></td>
                             <?php
                             do {
                                 if ($dt->format('d M Y') == date("d M Y")) {

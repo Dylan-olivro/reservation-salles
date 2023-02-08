@@ -95,7 +95,6 @@ for($ligne =8; $ligne <= 19; $ligne++ )
 	}
 		echo '</tr>';			
 }
-var_dump($resultat);
 ?>
 
 
@@ -115,3 +114,6 @@ var_dump($resultat);
 	</footer>	
 </body>
 </html>
+<?php
+var_dump($resultat);
+?>
