@@ -123,7 +123,7 @@ for($ligne =8; $ligne <= 19; $ligne++ )
 					if($heure==$ligne && $jour== $colonne)
 						{
                         // echo"$value[login]<br>$value[titre]";
-						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
+						echo"<a href=\"reservation.php?id=".$id."\">$value[login] : $value[titre]<br></a>";
 											
 						}
 						else{

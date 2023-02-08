@@ -1,9 +1,9 @@
 <?php
 session_start();
 require("./include/config.php");
-
-$requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
-$requete_resa->execute();
+$id= $_GET['id'];
+$requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
+$requete_resa->execute([$id]);
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 ?>
 
@@ -33,8 +33,42 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
 <body>
     <main>
+        <div class="container">
+        
+            <table>
+                <h2>Informations des users</h2>
+        
+                <thead>
+                    <tr>
+                        <th>Créateur</th>
+                        <th>Titre</th>
+                        <th>Descripton</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($resultat as $value) {
+                    ?>
+                        <tr>
+                            <?php echo "<td>" . ($value['login']) . "</td>" ?>
+                            <?php echo "<td>" . $value['titre'] . "</td>" ?>
+                            <?php echo "<td>" . $value['description'] . "</td>" ?>
+                            <?php echo "<td>" . $value['debut'] . "</td>" ?>
+                            <?php echo "<td>" . $value['fin'] . "</td>" ?>
+                        <?php
+                    }
+                        ?>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
         <?php
         var_dump($resultat);
         ?>
     </main>
 </body>
+
+
+    </html>

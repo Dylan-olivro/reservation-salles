@@ -52,12 +52,11 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
 <?php	
 						
-$ligne = 11;
-$colonne = 7;
-$jour = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi',
-'Samedi','Dimanche');
-$heure=array('08h00','09h00','10h00','11h00','12h00','13h00',
-'14h00','15h00','16h00','17h00','18h00','19h00')	;
+// $ligne = 11;
+// $colonne = 7;
+// $jour = new DateTime;
+// $heure=array('08h00','09h00','10h00','11h00','12h00','13h00',
+// '14h00','15h00','16h00','17h00','18h00','19h00')	;
 
 ?>
    <tbody>
@@ -79,10 +78,10 @@ for($ligne =8; $ligne <= 19; $ligne++ )
 					$jour=date("w", strtotime($value['debut']));
 					$heure=date("H", strtotime($value['debut']));
 				
-					if($heure==$ligne && $jour== $colonne)
+					if($heure == $ligne && $jour == $colonne)
 						{
                         // echo"$value[login]<br>$value[titre]";
-						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
+						echo"<a href=\"reservation.php?id=".$id."\">$value[login] : $value[titre]<br></a>";
 											
 						}
 						else{

@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
     $id_utilisateur1 = mysqli_num_rows($query2);
 
     if($id_utilisateur1 == 1){
-        header('location:reservation-form.php');
+        header('location:reservation-form_test.php');
         echo   "La plage horaire selectionnée n'est pas disponible.";
     }
 
