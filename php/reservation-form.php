@@ -19,12 +19,18 @@ $jour = date('D/d');
 
 <head>
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> -->
     <title>Calendrier</title>
 </head>
 
 
 <body>
+<header>
+        <img src="../assets/mysql-logo.png" alt="logo">
+        <nav>
+            <?php require('./include/header-include.php') ?>
+        </nav>
+    </header>
 
     <div>
         <img id="prev" src="../img/fleche_gauche.png" height="40px" width="40px" style="float:left;" />
