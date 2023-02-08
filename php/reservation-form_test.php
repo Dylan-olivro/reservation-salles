@@ -72,9 +72,36 @@ if (isset($_POST['submit'])) {
         <!-- <label for="fin">Fin :</label><br />
         <input type="date" name="date-fin"><br /><br /> -->
         <label for="heure">Heure de démarrage :</label><br />
-        <input type="time" name="heure-debut"><br /><br />
+        <!-- <input type="time" min="09:00" max="18:00" name="heure-debut"><br /><br /> -->
+        <select name="heure-debut" id="">
+        <option value="8h">8h</option>
+        <option value="9h">9h</option>
+        <option value="10h">10h</option>
+        <option value="11h">11h</option>
+        <option value="12h">12h</option>
+        <option value="13h">13h</option>
+        <option value="14h">14h</option>
+        <option value="15h">15h</option>
+        <option value="16h">16h</option>
+        <option value="17h">17h</option>
+        <option value="18h">18h</option>
+        </select>
         <label for="heure">Heure de fin :</label><br />
-        <input type="time" name="heure-fin"><br /><br />
+        <!-- <input type="time" name="heure-fin"><br /><br /> -->
+        <select name="heure-fin" id="">
+        <option value="9h">9h</option>
+        <option value="10h">10h</option>
+        <option value="11h">11h</option>
+        <option value="12h">12h</option>
+        <option value="13h">13h</option>
+        <option value="14h">14h</option>
+        <option value="15h">15h</option>
+        <option value="16h">16h</option>
+        <option value="17h">17h</option>
+        <option value="18h">18h</option>
+        <option value="19h">19h</option>
+        </select>
+
 
         <input type="submit" name="submit" value="Réserver">
     </form>

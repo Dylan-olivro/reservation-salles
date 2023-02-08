@@ -4,7 +4,8 @@ if (isset($_SESSION['login'])) {
     echo '<a href="./profil.php">-Profil-</a>';
     echo '<a href="./reservation-form.php">-Nouvelle réservation-</a>';
     echo '<a href="./reservation-form_test.php">-test réser-</a>';
-    echo '<a href="./reservation-form_test2.php">-tests planning-</a>';
+    echo '<a href="./planning_test.php">-tests planning-</a>';
+    echo '<a href="./reservation.php">-Réservation en cours-</a>';
     echo '<a href="./planning.php">-Planning</a>';
     if ($_SESSION["login"] == "admin") {
         echo '<a href="./admin.php">Admin</a>';
