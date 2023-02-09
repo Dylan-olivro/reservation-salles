@@ -1,10 +1,12 @@
 <?php
 session_start();
 require("./include/config.php");
-
-$requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
-$requete_resa->execute();
+// var_dump($_SESSION);
+$id = $_GET['id'];
+$requete_resa = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
+$requete_resa->execute([$id]);
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
+var_dump($resultat);
 ?>
 
 
@@ -34,7 +36,7 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 <body>
     <main>
         <?php
-        var_dump($resultat);
+        // var_dump($resultat);
         ?>
     </main>
 </body>

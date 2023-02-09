@@ -15,105 +15,106 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 // $query = mysqli_query($connexion, $reponse);
 // $resultat=mysqli_fetch_all($query);
 
-?>          
+?>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="index.css"/>
-		<title>planning test</title>
-	</head>
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="index.css" />
+	<title>planning test</title>
+</head>
 
 <body class="fondgrey">
 
-<header class="menu">
+	<header class="menu">
 
-<nav>
- <?php 
- require('./include/header-include.php') ?>
- </nav>
+		<nav>
+			<?php
+			require('./include/header-include.php') ?>
+		</nav>
 
-</header>
-		
-		<main>
-<section>
-<table border="1">
-	<thead>
-		<tr>
-			<td></td>
-			<td>Lundi</td>
-			<td>Mardi</td>
-			<td>Mercredi</td>
-			<td>Jeudi</td>
-			<td>Vendredi</td>
-			<td>Samedi</td>
-			<td>Dimanche</td>
-        </tr>
+	</header>
 
-<?php	
-						
-$ligne = 11;
-$colonne = 7;
-$jour = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi',
-'Samedi','Dimanche');
-$heure=array('08h00','09h00','10h00','11h00','12h00','13h00',
-'14h00','15h00','16h00','17h00','18h00','19h00')	;
+	<main>
+		<section>
+			<table border="1">
+				<thead>
+					<tr>
+						<th class="vide"></th>
+						<th class="jour">Lundi <?php echo $jour_semaine = date('d/m', strtotime('monday this week')); ?></th>
+						<th class="jour">Mardi <?php echo $jour_semaine = date('d/m', strtotime('tuesday this week')); ?></th>
+						<th class="jour">Mercredi <?php echo $jour_semaine = date('d/m', strtotime('wednesday this week')); ?></th>
+						<th class="jour">Jeudi <?php echo $jour_semaine = date('d/m', strtotime('thursday this week')); ?></th>
+						<th class="jour">Vendredi <?php echo $jour_semaine = date('d/m', strtotime('friday this week')); ?></th>
+						<th class="jour">Samedi <?php echo $jour_semaine = date('d/m', strtotime('saturday this week')); ?></th>
+						<th class="jour">Dimanche <?php echo $jour_semaine = date('d/m', strtotime('sunday this week')); ?></th>
+					</tr>
 
-?>
-   <tbody>
-    <tr>
+					<?php
+					$jour = array(
+						'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Dimanche',
+						'Samedi', 'Dimanche'
+					);
+					$heure = array(
+						'08h00', '09h00', '10h00', '11h00', '12h00', '13h00',
+						'14h00', '15h00', '16h00', '17h00', '18h00', '19h00'
+					);
 
-<?php
-// boucle pour la colonne des heures
-for($ligne =8; $ligne <= 19; $ligne++ )
-{
-		echo '<tr>';
-		echo "<td>".$ligne."h</td>";
-// boucle pour la ligne des jours de la semaine
-  	for($colonne = 1; $colonne <= 7; $colonne++)
-  	{
-    				echo "<td>";
-				foreach($resultat as $value){
+					?>
+				<tbody>
+					<tr>
 
-	$id=$value['id'];
-					$jour=date("w", strtotime($value['debut']));
-					$heure=date("H", strtotime($value['debut']));
-				
-					if($heure==$ligne && $jour== $colonne)
-						{
-                        // echo"$value[login]<br>$value[titre]";
-						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
-											
+						<?php
+						// boucle pour la colonne des heures
+						for ($ligne = 8; $ligne <= 19; $ligne++) {
+							echo '<tr>';
+							echo "<td>" . $ligne . "h</td>";
+							// boucle pour la ligne des jours de la semaine
+							for ($colonne = 1; $colonne <= 7; $colonne++) {
+								echo "<td>";
+								foreach ($resultat as $value) {
+
+									$id = $value['id'];
+									$jour = date("w", strtotime($value['debut']));
+									$heure = date("H", strtotime($value['debut']));
+
+									if ($heure == $ligne && $jour == $colonne) {
+										// echo"$value[login]<br>$value[titre]";
+										echo "<a href=\"reservation.php?id=" . $id . "\">$value[login]<br>$value[titre]</a>";
+									} else {
+										// echo "vide";
+										// break;
+									}
+								}
+								echo '</td>';
+							}
+							echo '</tr>';
 						}
-						else{
-							// echo "vide";
-                            // break;
-						}
-												
-		}
-		echo '</td>';
-	}
-		echo '</tr>';			
-}
-?>
+						?>
 
 
 
-</tr>
-   </tbody>
+					</tr>
+				</tbody>
 
-</table>
+			</table>
 
 
-</section>
-
-</main>
-<footer>
-				<section>
 		</section>
-	</footer>	
+
+	</main>
+	<footer>
+		<section>
+		</section>
+	</footer>
 </body>
+
 </html>
 <?php
 var_dump($resultat);
+echo '<br>';
+echo '<br>';
+echo '<br>';
+var_dump($value);
 ?>

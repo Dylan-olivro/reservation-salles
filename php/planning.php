@@ -5,31 +5,6 @@ require("./include/config.php");
 $requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
 $requete_resa->execute();
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
-
-
-$duration = 60;
-$cleanup = 0;
-$start = "08:00";
-$end = "19:00";
-
-function timeslots($duration, $cleanup, $start, $end)
-{
-    $start = new DateTime($start);
-    $end = new DateTime($end);
-    $interval = new DateInterval("PT" . $duration . "M");
-    $cleanupInterval = new DateInterval("PT" . $cleanup . "M");
-    $slots = array();
-
-    for ($intStart = $start; $intStart < $end; $intStart->add($interval)->add($cleanupInterval)) {
-        $endPeriod = clone $intStart;
-        $endPeriod->add($interval);
-        if ($endPeriod > $end) {
-            break;
-        }
-        $slots[] = $intStart->format("H:i") . "-" . $endPeriod->format("H:i");
-    }
-    return $slots;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,10 +45,10 @@ function timeslots($duration, $cleanup, $start, $end)
         } else {
             $dt->setISODate($dt->format('o'), $dt->format('W'));
         }
+        var_dump($dt);
         $year = $dt->format('o');
         $week = $dt->format('W');
         $month = $dt->format('F');
-        $year = $dt->format('Y');
         ?>
 
 
@@ -85,7 +60,7 @@ function timeslots($duration, $cleanup, $start, $end)
                         <h2><?php ?></h2>
                         <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year; ?>">Pre Week</a> <!--Previous week-->
                         <a class="btn btn-primary btn-xs" href="planning.php">Current Week</a> <!--Current week-->
-                        <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a> Next week
+                        <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a><!--Next week-->
                     </center>
 
 
@@ -105,37 +80,46 @@ function timeslots($duration, $cleanup, $start, $end)
                             ?>
                         </tr>
                         <?php
-// boucle pour la colonne des heures
-for($ligne =8; $ligne <= 19; $ligne++ )
-{
-		echo '<tr>';
-		echo "<td>".$ligne."h</td>";
-// boucle pour la ligne des jours de la semaine
-  	for($colonne = 1; $colonne <= 7; $colonne++)
-  	{
-    				echo "<td>";
-				foreach($resultat as $value){
+                        // boucle pour la colonne des heures
+                        for ($ligne = 8; $ligne <= 19; $ligne++) {
+                            echo '<tr>';
+                            echo "<td>" . $ligne . "h</td>";
+                            // boucle pour la ligne des jours de la semaine
+                            for ($colonne = 1; $colonne <= 7; $colonne++) {
+                                echo "<td>";
+                                foreach ($resultat as $value) {
 
-	$id=$value['id'];
-					$jour=date("w", strtotime($value['debut']));
-					$heure=date("H", strtotime($value['debut']));
-				
-					if($heure==$ligne && $jour== $colonne)
-						{
-                        // echo"$value[login]<br>$value[titre]";
-						echo"<a href=\"reservation.php?id=".$id."\">$value[login]<br>$value[titre]</a>";
-											
-						}
-						else{
-							// echo "vide";
-                            // break;
-						}
-												
-		}
-		echo '</td>';
-	}
-		echo '</tr>';			
-}
+                                    $id = $value['id'];
+                                    $jour = date("N", strtotime($value['debut']));
+                                    $heure = date("H", strtotime($value['debut']));
+                                    $mois = date("m", strtotime($value['debut']));
+                                    $annee = date("o", strtotime($value['debut']));
+                                    $semaine = date("W", strtotime($value['debut']));
+                                    $month = $dt->format('m');
+
+                                    // var_dump($jour);
+                                    // var_dump($semaine);
+                                    // var_dump($mois)
+                                    // var_dump($annee);
+
+                                    // var_dump($day);
+                                    // var_dump($week);
+                                    // var_dump($month);
+                                    // var_dump($year);
+
+                                    // var_dump($value['debut']);
+
+                                    if ($heure == $ligne && $jour == $colonne && $annee == $year && $mois == $month && $week == $semaine) {
+                                        echo "<a href=\"reservation.php?id=" . $id . "\">$value[login] : $value[titre]<br></a>";
+                                    } else {
+                                        // echo "vide";
+                                        // break;
+                                    }
+                                }
+                                echo '</td>';
+                            }
+                            echo '</tr>';
+                        }
 
 
                         ?>

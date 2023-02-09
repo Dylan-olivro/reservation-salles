@@ -7,6 +7,7 @@ if (isset($_SESSION['login'])) {
     echo '<a href="./planning_test.php">-tests planning-</a>';
     echo '<a href="./reservation.php">-Réservation en cours-</a>';
     echo '<a href="./planning.php">-Planning</a>';
+    echo '<a href="./test99.php">-test99</a>';
     if ($_SESSION["login"] == "admin") {
         echo '<a href="./admin.php">Admin</a>';
     }
