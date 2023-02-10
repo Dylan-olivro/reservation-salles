@@ -39,16 +39,16 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
     <main>
         <?php
-        $dt = new DateTime;
+        $dt = new DateTime();
         if (isset($_GET['year']) && isset($_GET['week'])) {
             $dt->setISODate($_GET['year'], $_GET['week']);
         } else {
             $dt->setISODate($dt->format('o'), $dt->format('W'));
         }
-        var_dump($dt);
         $year = $dt->format('o');
         $week = $dt->format('W');
         $month = $dt->format('F');
+        // $day = $dt->format('');        
         ?>
 
 
@@ -92,28 +92,34 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                     $id = $value['id'];
                                     $jour = date("N", strtotime($value['debut']));
                                     $heure = date("H", strtotime($value['debut']));
-                                    $mois = date("m", strtotime($value['debut']));
                                     $annee = date("o", strtotime($value['debut']));
                                     $semaine = date("W", strtotime($value['debut']));
-                                    $month = $dt->format('m');
-
-                                    // var_dump($jour);
+                                    // var_dump($colonne);
                                     // var_dump($semaine);
                                     // var_dump($mois)
                                     // var_dump($annee);
+                                    // if($semaine == $week){
+                                    //     var_dump($_GET['week']);
 
+                                    //     var_dump('OK');
+                                    // }
                                     // var_dump($day);
                                     // var_dump($week);
                                     // var_dump($month);
                                     // var_dump($year);
 
                                     // var_dump($value['debut']);
+                                    if ($heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine) {
 
-                                    if ($heure == $ligne && $jour == $colonne && $annee == $year && $mois == $month && $week == $semaine) {
+                                        // if ($heure == $ligne || $jour == $colonne || $annee == $year || $mois == $month || $day == $nbJour || $week == $semaine) {
                                         echo "<a href=\"reservation.php?id=" . $id . "\">$value[login] : $value[titre]<br></a>";
-                                    } else {
-                                        // echo "vide";
-                                        // break;
+                                    }
+                                    if (($heure == $ligne) == NULL && ($jour == $colonne) == NULL && ($annee == $year) == NULL && ($semaine == $week) == NULL) {
+                                        echo "vide";
+                                    }
+                                    if ($colonne == 6 || $colonne == 7) {
+                                        echo 'Pas Disponible';
+                                        break;
                                     }
                                 }
                                 echo '</td>';
@@ -121,6 +127,7 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                             echo '</tr>';
                         }
 
+                        var_dump($jour);
 
                         ?>
                     </table>
