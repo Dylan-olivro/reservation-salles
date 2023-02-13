@@ -6,10 +6,11 @@ $id = $_GET['id'];
 $requete_resa = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
 $requete_resa->execute([$id]);
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
-var_dump($resultat);
+// var_dump($resultat);
+if ($_SESSION['login'] == false) {
+    header("Location: ../index.php");
+}
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +20,8 @@ var_dump($resultat);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS -->
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/signup.css">
+    <link rel="stylesheet" href="../css/reservation.css">
+
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,9 +36,44 @@ var_dump($resultat);
 </head>
 
 <body>
+    <header>
+        <nav>
+            <?php require('./include/header-include.php') ?>
+        </nav>
+    </header>
+
     <main>
         <?php
-        // var_dump($resultat);
+        // var_dump($_SESSION);
         ?>
+
+        <?php
+        foreach ($resultat as $reservation) {
+        ?>
+
+            <div class="body_form">
+                <form action="#" method="post">
+
+                    <h2>Login</h2><br />
+                    <p><?php echo $reservation['login'] ?></p><br />
+                    <h2>Titre</h2><br />
+                    <p><?php echo $reservation['titre'] ?></p><br />
+                    <h2>Description</h2><br />
+                    <p><?php echo $reservation['description'] ?></p><br />
+                    <h2>Date/heure de début</h2><br />
+                    <p><?php echo $reservation['debut'] ?></p><br />
+                    <h2>Date/heure de fin</h2><br />
+                    <p><?php echo $reservation['fin'] ?></p><br />
+                    <a href="http://localhost/LaPlateforme/reservation-salles/php/planning.php">Retour au planning</a>
+                </form>
+            </div>
+        <?php
+        }
+        ?>
+
+
     </main>
+
 </body>
+
+</html>

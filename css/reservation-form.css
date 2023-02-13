@@ -1,101 +1,96 @@
-html, body{
-    margin: 0;
-    padding: 0;
-
-}
-.body_form{
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center;
+.body_form {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
     align-items: center; */
-    width: 500px;
-    margin: auto;
+  width: 500px;
+  margin: auto;
 }
 
-main{
-    height:100vh;
+main {
+  height: 100vh;
 }
 
 /*MAIN*/
 
-main{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /*FORMULAIRE*/
 
-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 30px;
-    background-color: var(--primaryColor);
-    padding: 30px;
-    border-radius: 10px;
-    /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); */
-    font-size: 15px;
-    animation-name: apparition;
-    animation-duration: 1.5s;
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px;
+  background-color: var(--primaryColor);
+  padding: 30px;
+  border-radius: 10px;
+  /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); */
+  font-size: 15px;
+  animation-name: apparition;
+  animation-duration: 1.5s;
 }
-#description{
-    resize: none;
-    width: 80%;
-    height: 3em;
-    border-radius: 10px;
-    margin: auto;
+#description {
+  resize: none;
+  width: 80%;
+  height: 3em;
+  border-radius: 10px;
+  margin: auto;
 }
-label{
-    text-align: center;
-}
-
-form input{
-    margin:10px 0;
-    border-radius: 10px;
-    background-color: var(--secondaryColor);
-    border: none;
-    outline: none;
-    margin: auto;
-    border: 1px solid transparent;
+label {
+  text-align: center;
 }
 
-fieldset{
-    animation-name: apparition;
-    animation-duration: 1s;
+form input {
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: var(--secondaryColor);
+  border: none;
+  outline: none;
+  margin: auto;
+  border: 1px solid transparent;
 }
 
-fieldset legend{
-    font-size: 30px;
-    animation-name: apparition;
-    animation-duration: 1.35s;
+fieldset {
+  animation-name: apparition;
+  animation-duration: 1s;
 }
 
-.center{
-    text-align: center;
+fieldset legend {
+  font-size: 30px;
+  animation-name: apparition;
+  animation-duration: 1.35s;
 }
 
-input[type="submit"]{
-    margin: 0;
-    width: 50%;
-    border: 0;
-    cursor: pointer;
-    background-color: var(--secondaryColor);
-    transition:all 0.8s;
-    margin: auto;
+.center {
+  text-align: center;
 }
 
-input[type="submit"]:hover{
-    box-shadow:300px 0 0 0 rgb(1, 8, 119) inset;
-    color: white;
+input[type="submit"] {
+  margin: 0;
+  width: 50%;
+  border: 0;
+  cursor: pointer;
+  background-color: var(--secondaryColor);
+  transition: all 0.8s;
+  margin: auto;
+}
+
+input[type="submit"]:hover {
+  box-shadow: 300px 0 0 0 rgb(1, 8, 119) inset;
+  color: white;
 }
 
 /*COULEURS PRINCIPAL*/
 
-:root{
-    --primaryColor:rgb(9, 97, 1);
-    --secondaryColor: #eeeeee;
+:root {
+  --primaryColor: rgb(9, 97, 1);
+  --secondaryColor: #eeeeee;
 }
 
 /*APPARITION ANIMATION*/

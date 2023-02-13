@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservation-form</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/reservation-form.css">
 </head>
 
