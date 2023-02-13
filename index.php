@@ -29,13 +29,11 @@ require "./php/include/config.php"
     </header>
 
     <main>
-        <h1>Bienvenue<br>
-            <?php
-            if (isset($_SESSION['login'])) {
-                echo strtoupper($_SESSION['login']);
-            }
-            ?>
-        </h1>
+        <?php
+        // if (isset($_SESSION['login'])) {
+        //     echo strtoupper($_SESSION['login']);
+        // }
+        ?>
         <!-- <style>
             h1 {
                 text-align: center;

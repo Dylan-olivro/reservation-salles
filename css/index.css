@@ -1,3 +1,5 @@
 body {
-  background-image: url(/img/salle.jpg);
+  background-image: url(../assets/salle.jpg);
+  background-attachment: fixed;
+  background-size: cover;
 }

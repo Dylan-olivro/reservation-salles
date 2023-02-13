@@ -28,7 +28,6 @@ if ($_SESSION['login'] != 'admin') {
 
 <body>
     <header>
-        <img src="../assets/mysql-logo.png" alt="logo">
         <nav>
             <?php require './include/header-include.php' ?>
         </nav>
