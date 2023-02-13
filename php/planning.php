@@ -109,7 +109,9 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                     // var_dump($year);
 
                                     // var_dump($value['debut']);
-                                    if ($heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine) {
+                                    $creneau = $heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine;
+
+                                    if ($creneau) {
                                         echo "<a href=\"reservation.php?id=" . $id . "\">$value[login] : $value[titre]<br></a>";
                                         // if ($id) {
                                         //     echo "date";

@@ -64,7 +64,7 @@ if ($_SESSION['login'] == false) {
                     <p><?php echo $reservation['debut'] ?></p><br />
                     <h2>Date/heure de fin</h2><br />
                     <p><?php echo $reservation['fin'] ?></p><br />
-                    <a href="http://localhost/LaPlateforme/reservation-salles/php/planning.php">Retour au planning</a>
+                    <a href="planning.php">Retour au planning</a>
                 </form>
             </div>
         <?php
@@ -73,6 +73,8 @@ if ($_SESSION['login'] == false) {
 
 
     </main>
+
+    <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
 
 </body>
 
