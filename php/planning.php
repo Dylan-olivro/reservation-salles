@@ -110,12 +110,13 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
                                     // var_dump($value['debut']);
                                     if ($heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine) {
-
-                                        // if ($heure == $ligne || $jour == $colonne || $annee == $year || $mois == $month || $day == $nbJour || $week == $semaine) {
                                         echo "<a href=\"reservation.php?id=" . $id . "\">$value[login] : $value[titre]<br></a>";
-                                    }
-                                    if (($heure == $ligne) == NULL && ($jour == $colonne) == NULL && ($annee == $year) == NULL && ($semaine == $week) == NULL) {
-                                        echo "vide";
+                                        // if ($id) {
+                                        //     echo "date";
+                                        // } else {
+                                        //     echo 'vide';
+                                        // }
+
                                     }
                                     if ($colonne == 6 || $colonne == 7) {
                                         echo 'Pas Disponible';
@@ -126,9 +127,6 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                             }
                             echo '</tr>';
                         }
-
-                        var_dump($jour);
-
                         ?>
                     </table>
                 </div>

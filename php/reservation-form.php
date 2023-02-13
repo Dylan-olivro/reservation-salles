@@ -1,149 +1,136 @@
 <?php
 session_start();
 require("./include/config.php");
+
+if (isset($_POST['submit'])) {
+
+    //Variables
+    $titre = htmlspecialchars($_POST['titre']);
+    $description = htmlspecialchars($_POST['description']);
+    $debut = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
+    $fin = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
+    $date = date('Y-m-d H');
+    echo '<br>';
+    var_dump($date);
+    echo '<br>';
+    var_dump($debut);
+    echo '<br>';
+    var_dump($_POST['date-debut']);
+    echo '<br>';
+    var_dump($weekend);
+    echo '<br>';
+
+    // var_dump($_POST['date-debut']);
+    // FAIRE UNE CONDITION POUR DIMANCHE ET SAMEDI
+
+
+    $request = $bdd->prepare("SELECT id FROM utilisateurs WHERE login ='" . $_SESSION['login'] . "'");
+    $request->execute();
+    $id = $request->fetchAll();
+    $id_utilisateur = $id[0][0];
+
+    $recupUser = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
+    $recupUser->execute([$debut]);
+    if (empty($titre)) {
+        echo 'champ vide';
+    } elseif (empty($_POST['date-debut'])) {
+        echo 'veuillez rentrez une date';
+    } elseif ($date > $debut) {
+        echo 'date passé';
+    } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
+        echo 'Heure fin superieur au heure debut';
+    } elseif ($_POST['heure-fin'] - $_POST['heure-debut'] > 1) {
+        echo 'reserver une heure';
+    } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
+        echo 'meme heure selectionner';
+    } elseif ($_POST['date-debut'] > 5) {
+        echo 'dimanche';
+    } elseif ($recupUser->rowCount() > 0) {
+        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
+    } else {
+        $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
+        $request2->execute();
+    }
+    //     //VERIFIER SI LA PLAGE HORAIRE EST DISPONIBLE
+    // $request3 = $bdd->prepare("SELECT * FROM reservations WHERE reservations.debut = 1  reservations.fin = 1");
+    // $request3->execute();
+    // $request3->rowCount();
+
+    //     if ($id_utilisateur1 == 1) {
+    //         header('location:reservation-form.php');
+    //         echo   "La plage horaire selectionnée n'est pas disponible.";
+    //     }
+}
 ?>
 
-
-<?php
-
-$mois = date('m');
-$annee = date('Y');
-$jour = date('D/d');
-
-
-?>
-
-
-<html>
 <!DOCTYPE html>
+<html lang="fr" dir="ltr">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> -->
-    <title>Calendrier</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation-form</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../css/reservation-form.css">
 </head>
 
-
 <body>
-<header>
-        <img src="../assets/mysql-logo.png" alt="logo">
+
+    <!--Header-->
+    <header>
         <nav>
             <?php require('./include/header-include.php') ?>
         </nav>
     </header>
 
-    <div>
-        <img id="prev" src="../img/fleche_gauche.png" height="40px" width="40px" style="float:left;" />
-        <img id="next" src="../img/fleche_droite.png" height="40px" width="40px" style="float:right;" />
+    <!--Main-->
+    <div class="body_form">
+        <form action="#" method="post">
+
+            <label for="titre">Titre :</label><br />
+            <input type="text" name="titre"><br />
+            <label for="description">Description :</label><br />
+            <textarea id="description" name="description"></textarea><br />
+            <!-- <input type="text" name="description"><br /> -->
+            <label for="debut">Date :</label><br />
+            <input type="date" name="date-debut"><br />
+            <!-- <label for="fin">Fin :</label><br />
+        <input type="date" name="date-fin"><br /><br /> -->
+            <label for="heure">Heure de démarrage :</label><br />
+            <!-- <input type="time" min="09:00" max="18:00" name="heure-debut"><br /><br /> -->
+            <select name="heure-debut" id="">
+                <option value="8">8h</option>
+                <option value="9">9h</option>
+                <option value="10">10h</option>
+                <option value="11">11h</option>
+                <option value="12">12h</option>
+                <option value="13">13h</option>
+                <option value="14">14h</option>
+                <option value="15">15h</option>
+                <option value="16">16h</option>
+                <option value="17">17h</option>
+                <option value="18">18h</option>
+            </select>
+            <label for="heure">Heure de fin :</label><br />
+            <!-- <input type="time" name="heure-fin"><br /><br /> -->
+            <select name="heure-fin" id="">
+                <option value="9">9h</option>
+                <option value="10">10h</option>
+                <option value="11">11h</option>
+                <option value="12">12h</option>
+                <option value="13">13h</option>
+                <option value="14">14h</option>
+                <option value="15">15h</option>
+                <option value="16">16h</option>
+                <option value="17">17h</option>
+                <option value="18">18h</option>
+                <option value="19">19h</option>
+            </select>
+
+
+            <input type="submit" name="submit" value="Réserver">
+        </form>
     </div>
-
-    <div id="content">
-    </div>
-
-    <table>
-        <tr>
-            <th>
-                Horaires
-            </th>
-            <th>Lundi
-                <?= $jour ?>
-            </th>
-            <th>
-                Mardi
-                <?= $jour ?>
-            </th>
-            <th>
-                Mercredi
-                <?= $jour ?>
-            </th>
-            <th>
-                Jeudi
-                <?= $jour ?>
-            </th>
-            <th>
-                Vendredi
-                <?= $jour ?>
-            </th>
-            <th>
-                Samedi
-                <?= $jour ?>
-            </th>
-            <th>
-                Dimanche
-                <?= $jour ?>
-            </th>
-
-        </tr>
-
-        <tr>
-            <th>créneau horaire</th>
-        </tr>
-        <tr>
-            <th>créneau horaire</th>
-        </tr>
-        <tr>
-            <th>créneau horaire</th>
-        </tr>
-        <tr>
-            <th>créneau horaire</th>
-        </tr>
-    </table>
-
-    <?php
-    $nombre_de_jour = cal_days_in_month(CAL_GREGORIAN, $mois, $annee);
-
-    echo "<table>";
-
-    echo "<tr><th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th></tr>";
-
-    for ($i = 1; $i <= $nombre_de_jour; $i++) {
-
-        $jour = cal_to_jd(CAL_GREGORIAN, $mois, $i, $annee);
-        $jour_semaine = JDDayOfWeek($jour);
-
-        if ($i == $nombre_de_jour) {
-
-            if ($jour_semaine == 1) {
-                echo "<tr>";
-            }
-
-            echo "<td class='case'>" . $i . "</td></tr>";
-        } elseif ($i == 1) {
-
-            echo "<tr>";
-
-            if ($jour_semaine == 0) {
-                $jour_semaine = 7;
-            }
-
-            for ($k = 1; $k != $jour_semaine; $k++) {
-                echo "<td></td>";
-            }
-
-            echo "<td class='case'>" . $i . "</td>";
-
-            if ($jour_semaine == 7) {
-                echo "</tr>";
-            }
-        } else {
-
-            if ($jour_semaine == 1) {
-                echo "<tr>";
-            }
-
-            echo "<td class='case'>" . $i . "</td>";
-
-            if ($jour_semaine == 0) {
-                echo "</tr>";
-            }
-        }
-    }
-
-    echo "</table>";
-    ?>
-
-
-
 
 </body>
 
