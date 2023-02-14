@@ -7,7 +7,7 @@ $requete_resa->execute();
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -70,9 +70,9 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                             <?php
                             do {
                                 if ($dt->format('d M Y') == date("d M Y")) {
-                                    echo "<td style='background:yellow;'>" . $dt->format('l') . " " . $dt->format('d M Y') . "</td>\n";
+                                    echo "<td style='background:orange; font-weight:bold;'>" . $dt->format('l') . " " . $dt->format('d M Y') . "</td>\n";
                                 } else {
-                                    echo "<td>" . $dt->format('l') . " " . $dt->format('d M Y') . "</td>\n";
+                                    echo "<td style='font-weight:bold;'>" . $dt->format('l') . " " . $dt->format('d M Y') . "</td>\n";
                                 }
 
                                 $dt->modify('+1 day');
@@ -83,10 +83,10 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                         // boucle pour la colonne des heures
                         for ($ligne = 8; $ligne <= 19; $ligne++) {
                             echo '<tr>';
-                            echo "<td>" . $ligne . "h</td>";
+                            echo "<td style='font-weight:bold;'>" . $ligne . "h</td>";
                             // boucle pour la ligne des jours de la semaine
                             for ($colonne = 1; $colonne <= 7; $colonne++) {
-                                echo "<td>";
+                                echo "<td style='text-align:center;'>";
                                 foreach ($resultat as $value) {
 
                                     $id = $value['id'];
@@ -112,7 +112,7 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                     $creneau = $heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine;
 
                                     if ($creneau) {
-                                        echo "<a href=\"reservation.php?id=" . $id . "\">$value[login] : $value[titre]<br></a>";
+                                        echo "<button style='background:darkred; width:100%; height:50px;'><a style='color:#fff; text-decoration:none;' href=\"reservation.php?id=" . $id . "\">$value[login]<br>$value[titre]</a></button>";
                                         // if ($id) {
                                         //     echo "date";
                                         // } else {
@@ -121,7 +121,7 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
                                     }
                                     if ($colonne == 6 || $colonne == 7) {
-                                        echo 'Pas Disponible';
+                                        echo '<button style="background:black; width:100%; height:50px;"></button>';
                                         break;
                                     }
                                 }
@@ -134,8 +134,6 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-
-
 
     </main>
 

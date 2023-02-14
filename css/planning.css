@@ -1,0 +1,20 @@
+body {
+  background-image: url(../assets/salle3.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+}
+table {
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.13);
+  margin-top: 20px;
+}
+
+/* .table-bordered {
+  border-color: #000;
+} */
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 100% !important;
+    margin: 0;
+  }
+}

@@ -30,6 +30,13 @@ require "./include/config.php";
     </header>
 
     <main>
+        <style>
+            body {
+                background-image: url(../assets/salle2.jpg);
+                background-attachment: fixed;
+                background-size: cover;
+            }
+        </style>
 
         <form method="post" action="profil.php">
             <h3>Edit</h3>

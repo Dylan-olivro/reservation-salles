@@ -29,6 +29,13 @@ require "./php/include/config.php"
     </header>
 
     <main>
+        <style>
+            body {
+                background-image: url(./assets/salle.jpg);
+                background-attachment: fixed;
+                background-size: cover;
+            }
+        </style>
         <?php
         // if (isset($_SESSION['login'])) {
         //     echo strtoupper($_SESSION['login']);
