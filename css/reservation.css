@@ -57,6 +57,7 @@ main {
 .text {
   overflow: auto;
   height: 60px;
+  word-break: break-word;
 }
 #button {
   margin-top: 20px;

@@ -111,13 +111,24 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                     $creneau = $heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine;
 
                                     if ($creneau) {
-                                        echo "<button style='background:darkred; width:100%; height:50px;'><a style='color:#fff; text-decoration:none;' href=\"reservation.php?id=" . $id . "\">$value[login]<br>$value[titre]</a></button>";
+                                        if ($value) {
+                                            echo "<a href='reservation.php?id=" . $id . "'>
+                                            <button style='background:darkred; 
+                                                        width:100%; 
+                                                        height:50px;
+                                                        color:#fff'>
+                                            $value[login]<br>$value[titre]
+                                            </button>
+                                            </a>";
+                                        } else {
+                                            echo 'vide';
+                                        }
+
                                         // if ($id) {
                                         //     echo "date";
                                         // } else {
                                         //     echo 'vide';
                                         // }
-
                                     }
                                     if ($colonne == 6 || $colonne == 7) {
                                         echo '<button style="background:black; width:100%; height:50px;"></button>';
@@ -136,7 +147,10 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
     </main>
 
-    <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
+    <footer>
+        <a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a>
+        <a href="https://github.com/Charles-Caltagirone"><i class="fa-brands fa-github"></i></a>
+    </footer>
 </body>
 
 </html>

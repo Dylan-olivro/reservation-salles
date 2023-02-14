@@ -1,14 +1,16 @@
-#bc_inscription{
-  background-image: url(../assets/salle4.jpg);
+#bc_inscription {
+  background-image: url(../assets/salle10.jpg);
   background-attachment: fixed;
   background-size: cover;
+  background-position: bottom;
 }
-#bc_profil{
-  background-image: url(../assets/salle2.jpg);
+#bc_profil {
+  background-image: url(../assets/salle11.jpeg);
   background-attachment: fixed;
   background-size: cover;
+  background-position: right;
 }
-#bc_reservation-form{
+#bc_reservation-form {
   background-image: url(../assets/salle7.jpg);
   background-attachment: fixed;
   background-size: cover;
