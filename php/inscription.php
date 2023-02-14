@@ -22,7 +22,7 @@ require("./include/config.php");
     <title>Inscription</title>
 </head>
 
-<body>
+<body id="bc_inscription">
     <header>
         <nav>
             <?php require('./include/header-include.php') ?>

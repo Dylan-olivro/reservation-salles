@@ -22,7 +22,7 @@ require "./include/config.php";
     <title>Profil</title>
 </head>
 
-<body>
+<body id="bc_profil">
     <header>
         <nav>
             <?php require './include/header-include.php' ?>
@@ -30,14 +30,6 @@ require "./include/config.php";
     </header>
 
     <main>
-        <style>
-            body {
-                background-image: url(../assets/salle2.jpg);
-                background-attachment: fixed;
-                background-size: cover;
-            }
-        </style>
-
         <form method="post" action="profil.php">
             <h3>Edit</h3>
 

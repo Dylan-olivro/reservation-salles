@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
 
 </head>
 
-<body>
+<body id="bc_reservation-form">
 
     <!--Header-->
     <header>
