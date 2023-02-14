@@ -34,8 +34,8 @@ if (isset($_POST['submit'])) {
     $id = $request->fetchAll();
     $id_utilisateur = $id[0][0];
 
-    $recupUser = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
-    $recupUser->execute([$debut]);
+    $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
+    $recupDate->execute([$debut]);
     //     //VERIFIER SI LA PLAGE HORAIRE EST DISPONIBLE
     // $request3 = $bdd->prepare("SELECT * FROM reservations WHERE reservations.debut = 1  reservations.fin = 1");
     // $request3->execute();
@@ -54,11 +54,13 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservation-form</title>
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/reservation-form.css">
+    <link rel="stylesheet" href="../css/inscription.css">
+    <!-- <link rel="stylesheet" href="../css/reservation-form.css"> -->
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/9a09d189de.js" crossorigin="anonymous"></script>
+    <title>Nouvelle réservation</title>
+
 </head>
 
 <body>
@@ -74,18 +76,19 @@ if (isset($_POST['submit'])) {
     <main>
         <div class="body_form">
             <form action="#" method="post">
+                <h3>Demande de réservation</h3>
 
-                <label for="titre">Titre :</label><br />
-                <input type="text" name="titre"><br />
-                <label for="description">Description :</label><br />
-                <textarea id="description" name="description"></textarea><br />
-                <!-- <input type="text" name="description"><br /> -->
-                <label for="debut">Date :</label><br />
-                <input type="date" name="date-debut"><br />
-                <!-- <label for="fin">Fin :</label><br />
-        <input type="date" name="date-fin"><br /><br /> -->
-                <label for="heure">Heure de démarrage :</label><br />
-                <!-- <input type="time" min="09:00" max="18:00" name="heure-debut"><br /><br /> -->
+                <label for="titre">Titre</label>
+                <input type="text" placeholder="Titre" name="titre" required>
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Description" name="description"></textarea>
+                <!-- <input type="text" name="description">  -->
+                <label for="debut">Date</label>
+                <input type="date" name="date-debut" required>
+                <!-- <label for="fin">Fin :</label> 
+        <input type="date" name="date-fin">   -->
+                <label for="heure">Heure de démarrage</label>
+                <!-- <input type="time" min="09:00" max="18:00" name="heure-debut">   -->
                 <select name="heure-debut" id="">
                     <option value="8">8h</option>
                     <option value="9">9h</option>
@@ -99,8 +102,8 @@ if (isset($_POST['submit'])) {
                     <option value="17">17h</option>
                     <option value="18">18h</option>
                 </select>
-                <label for="heure">Heure de fin :</label><br />
-                <!-- <input type="time" name="heure-fin"><br /><br /> -->
+                <label for="heure">Heure de fin</label>
+                <!-- <input type="time" name="heure-fin">   -->
                 <select name="heure-fin" id="">
                     <option value="9">9h</option>
                     <option value="10">10h</option>
@@ -116,29 +119,28 @@ if (isset($_POST['submit'])) {
                 </select>
                 <?php
                 if (empty($titre)) {
-                    echo 'champ vide';
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";
                 } elseif (empty($_POST['date-debut'])) {
-                    echo 'veuillez rentrez une date';
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspSélectionnez une date.</p>";
                 } elseif ($date > $debut) {
-                    echo 'date passé';
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspDate déjà passée.</p>";
                 } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
-                    echo 'Heure fin superieur au heure debut';
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
                 } elseif ($_POST['heure-fin'] - $_POST['heure-debut'] > 1) {
-                    echo 'reserver une heure';
-                } elseif ($dateInt == 6 || $knowDate == 7) {
-                    echo 'pas le week-end';
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspUne heure maximum.</p>";
+                } elseif ($dateInt == 6 || $dateInt == 7) {
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
                 } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
-                    echo 'meme heure selectionner';
-                } elseif ($recupUser->rowCount() > 0) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
+                } elseif ($recupDate->rowCount() > 0) {
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
                 } else {
                     $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
                     $request2->execute();
                 }
                 ?>
-                <input type="submit" name="submit" value="Réserver">
+                <input type="submit" name="submit" id="button" value="Réserver">
             </form>
-        </div>
     </main>
 
     <footer><a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a></footer>
