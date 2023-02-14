@@ -8,7 +8,7 @@ $requete_resa->execute([$id]);
 $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 // var_dump($resultat);
 if ($_SESSION['login'] == false) {
-    header("Location: ../index.php");
+    header("Location: ./planning.php");
 }
 ?>
 <!DOCTYPE html>
@@ -61,7 +61,23 @@ if ($_SESSION['login'] == false) {
                 <p class="valeur"><?php echo $reservation['debut'] ?></p>
                 <p class="titre">Date/heure de fin </p>
                 <p class="valeur"><?php echo $reservation['fin'] ?></p>
-                <a href="planning.php"><input type="submit" name="envoi" id="button" value="Retour au planning"></a>
+                <form action="" method="post">
+                    <?php
+                    // var_dump($resultat);
+                    if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
+                        echo '<button type="submit "name="delete" value="Supprimer" id="button">Supprimer</button>';
+                        if (isset($_POST['delete'])) {
+                            $suppr_resa = $bdd->prepare("DELETE FROM reservations WHERE id = ?");
+                            $suppr_resa->execute([$id]);
+                            header('Location: planning.php');
+                        }
+                    } else {
+                        echo '<a href="planning.php"><input id="button" value="Planning"></input></a>';
+                    }
+                    ?>
+                </form>
+
+                <!-- <input type="submit" name="envoi" id="button" value="Retour au planning"> -->
 
             </div>
         <?php

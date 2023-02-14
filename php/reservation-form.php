@@ -1,6 +1,7 @@
 <?php
 session_start();
 require("./include/config.php");
+$pre_date = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -39,14 +40,14 @@ require("./include/config.php");
                 <textarea id="description" placeholder="Description" name="description"></textarea>
                 <!-- <input type="text" name="description">  -->
                 <label for="debut">Date</label>
-                <input type="date" name="date-debut" required>
+                <input type="date" name="date-debut" value="<?= $pre_date ?>" required>
                 <!-- <label for="fin">Fin :</label> 
         <input type="date" name="date-fin">   -->
                 <label for="heure">Heure de démarrage</label>
                 <!-- <input type="time" min="09:00" max="18:00" name="heure-debut">   -->
                 <select name="heure-debut" id="">
-                    <option value="8">8h</option>
-                    <option value="9">9h</option>
+                    <option value="08">8h</option>
+                    <option value="09">9h</option>
                     <option value="10">10h</option>
                     <option value="11">11h</option>
                     <option value="12">12h</option>
@@ -60,7 +61,7 @@ require("./include/config.php");
                 <label for="heure">Heure de fin</label>
                 <!-- <input type="time" name="heure-fin">   -->
                 <select name="heure-fin" id="">
-                    <option value="9">9h</option>
+                    <option value="09">9h</option>
                     <option value="10">10h</option>
                     <option value="11">11h</option>
                     <option value="12">12h</option>
@@ -73,6 +74,7 @@ require("./include/config.php");
                     <option value="19">19h</option>
                 </select>
                 <?php
+
                 function triche_entites($texte)
                 {
                     return preg_replace('/&.*;/U', 'a', $texte);
@@ -122,7 +124,7 @@ require("./include/config.php");
                     } else {
                         $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
                         $request2->execute();
-                        header("Location: planning.php");
+                        header('Location:planning.php');
                     }
                 }
                 ?>
