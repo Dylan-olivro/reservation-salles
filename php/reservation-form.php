@@ -18,7 +18,7 @@ require("./include/config.php");
 
 </head>
 
-<body>
+<body id="bc_reservation-form">
 
     <!--Header-->
     <header>
