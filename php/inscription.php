@@ -53,6 +53,8 @@ require("./include/config.php");
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez complétez tous les champs.</p>";
                 } elseif (!preg_match("#^[a-z0-9]+$#", $login)) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
+                } elseif (strlen($login) > 15) {
+                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLogin trop long (15 max).</p>";
                 } elseif ($password != $cpassword) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLes deux mots de passe sont differents.</p>";
                 } elseif ($recupUser->rowCount() > 0) {

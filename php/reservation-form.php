@@ -1,51 +1,6 @@
 <?php
 session_start();
 require("./include/config.php");
-
-if (isset($_POST['submit'])) {
-
-    //Variables
-    $titre = htmlspecialchars($_POST['titre']);
-    $description = htmlspecialchars($_POST['description']);
-    $debut = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
-    $fin = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
-    $dayStart = htmlspecialchars($_POST['date-debut']);
-    // $dimanche = date("N", strtotime('sunday'));
-    $date = date('Y-m-d H');
-    $dateInt = date('N', strtotime($dayStart));
-
-    // var_dump($dateInt);
-    // echo '<br>';
-    // var_dump($date);
-    // echo '<br>';
-    // var_dump($debut);
-    // echo '<br>';
-    // var_dump($_POST['date-debut']);
-    // echo '<br>';
-    // var_dump($dimanche);
-    // echo '<br>';
-
-    // var_dump($_POST['date-debut']);
-    // FAIRE UNE CONDITION POUR DIMANCHE ET SAMEDI
-
-
-    $request = $bdd->prepare("SELECT id FROM utilisateurs WHERE login ='" . $_SESSION['login'] . "'");
-    $request->execute();
-    $id = $request->fetchAll();
-    $id_utilisateur = $id[0][0];
-
-    $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
-    $recupDate->execute([$debut]);
-    //     //VERIFIER SI LA PLAGE HORAIRE EST DISPONIBLE
-    // $request3 = $bdd->prepare("SELECT * FROM reservations WHERE reservations.debut = 1  reservations.fin = 1");
-    // $request3->execute();
-    // $request3->rowCount();
-
-    //     if ($id_utilisateur1 == 1) {
-    //         header('location:reservation-form.php');
-    //         echo   "La plage horaire selectionnée n'est pas disponible.";
-    //     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -118,25 +73,57 @@ if (isset($_POST['submit'])) {
                     <option value="19">19h</option>
                 </select>
                 <?php
-                if (empty($titre)) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";
-                } elseif (empty($_POST['date-debut'])) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspSélectionnez une date.</p>";
-                } elseif ($date > $debut) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspDate déjà passée.</p>";
-                } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
-                } elseif ($_POST['heure-fin'] - $_POST['heure-debut'] > 1) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspUne heure maximum.</p>";
-                } elseif ($dateInt == 6 || $dateInt == 7) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
-                } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
-                } elseif ($recupDate->rowCount() > 0) {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
-                } else {
-                    $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
-                    $request2->execute();
+                function triche_entites($texte)
+                {
+                    return preg_replace('/&.*;/U', 'a', $texte);
+                }
+
+                if (isset($_POST['submit'])) {
+
+                    //Variables
+                    $titre = htmlspecialchars($_POST['titre']);
+                    $description = htmlspecialchars($_POST['description']);
+                    $debut = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
+                    $fin = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
+                    $dayStart = htmlspecialchars($_POST['date-debut']);
+                    // $dimanche = date("N", strtotime('sunday'));
+                    $date = date('Y-m-d H');
+                    $dateInt = date('N', strtotime($dayStart));
+                    $commentaire = $_POST['description'];
+
+                    $request = $bdd->prepare("SELECT id FROM utilisateurs WHERE login ='" . $_SESSION['login'] . "'");
+                    $request->execute();
+                    $id = $request->fetchAll();
+                    $id_utilisateur = $id[0][0];
+
+                    $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
+                    $recupDate->execute([$debut]);
+
+                    if (empty($titre)) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";
+                    } elseif (empty($_POST['date-debut'])) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspSélectionnez une date.</p>";
+                    } elseif ($date > $debut) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspDate déjà passée.</p>";
+                    } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
+                    } elseif ($_POST['heure-fin'] - $_POST['heure-debut'] > 1) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspUne heure maximum.</p>";
+                    } elseif ($dateInt == 6 || $dateInt == 7) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
+                    } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
+                    } elseif (strlen($titre) > 15) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspTitre trop long (15 max).</p>";
+                    } elseif (strlen($commentaire) > 1000) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCommentaire trop long (1000 max).</p>";
+                    } elseif ($recupDate->rowCount() > 0) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
+                    } else {
+                        $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
+                        $request2->execute();
+                        header("Location: planning.php");
+                    }
                 }
                 ?>
                 <input type="submit" name="submit" id="button" value="Réserver">
