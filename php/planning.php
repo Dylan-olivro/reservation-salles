@@ -31,7 +31,6 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
 
 <body>
     <header>
-        <img src="../assets/mysql-logo.png" alt="logo">
         <nav>
             <?php require('./include/header-include.php') ?>
         </nav>

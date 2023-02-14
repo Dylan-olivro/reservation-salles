@@ -28,10 +28,6 @@ if ($_SESSION['login'] == false) {
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/9a09d189de.js" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <title>Réservation actuelle</title>
 </head>
 
@@ -51,21 +47,22 @@ if ($_SESSION['login'] == false) {
         foreach ($resultat as $reservation) {
         ?>
 
-            <div class="body_form">
-                <form action="#" method="post">
+            <div class="infos">
+                <h3>Détails</h3>
 
-                    <h2>Login</h2><br />
-                    <p><?php echo $reservation['login'] ?></p><br />
-                    <h2>Titre</h2><br />
-                    <p><?php echo $reservation['titre'] ?></p><br />
-                    <h2>Description</h2><br />
-                    <p><?php echo $reservation['description'] ?></p><br />
-                    <h2>Date/heure de début</h2><br />
-                    <p><?php echo $reservation['debut'] ?></p><br />
-                    <h2>Date/heure de fin</h2><br />
-                    <p><?php echo $reservation['fin'] ?></p><br />
-                    <a href="planning.php">Retour au planning</a>
-                </form>
+
+                <p class="titre">Login </p>
+                <p class="valeur"><?php echo $reservation['login'] ?></p>
+                <p class="titre">Titre </p>
+                <p class="valeur"><?php echo $reservation['titre'] ?></p>
+                <p class="titre">Description </p>
+                <p class="valeur text"><?php echo $reservation['description'] ?></p>
+                <p class="titre">Date/heure de début </p>
+                <p class="valeur"><?php echo $reservation['debut'] ?></p>
+                <p class="titre">Date/heure de fin </p>
+                <p class="valeur"><?php echo $reservation['fin'] ?></p>
+                <a href="planning.php"><input type="submit" name="envoi" id="button" value="Retour au planning"></a>
+
             </div>
         <?php
         }
