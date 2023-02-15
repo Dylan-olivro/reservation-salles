@@ -2,6 +2,10 @@
 session_start();
 require("./include/config.php");
 $defined_date = date("Y-m-d");
+
+if ($_SESSION['login'] == false) {
+    header("Location: ./planning.php");
+}
 ?>
 
 <!DOCTYPE html>

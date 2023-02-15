@@ -8,6 +8,7 @@ if ($_SESSION['login'] == false) {
 
 $defined_date = date("Y-m-d");
 $id_comment = $_GET['id'];
+$id = $_SESSION['id'];
 $resa_request = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
 $resa_request->execute([$id_comment]);
 $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
@@ -30,7 +31,6 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/inscription.css">
-    <!-- <link rel="stylesheet" href="../css/reservation-form.css"> -->
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/9a09d189de.js" crossorigin="anonymous"></script>
     <title>Nouvelle réservation</title>
@@ -73,7 +73,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                     <option value="18">18h</option>
                 </select>
                 <label for="heure">Heure de fin</label>
-                <!-- <input type="time" name="heure-fin">   -->
+
                 <select name="heure-fin" id="">
                     <option value="09">9h</option>
                     <option value="10">10h</option>
@@ -89,7 +89,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                 </select>
                 <?php
 
-                function triche_entites($texte)
+                function cheat_entities($texte)
                 {
                     return preg_replace('/&.*;/U', 'a', $texte);
                 }
@@ -109,8 +109,8 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
 
                     $id_user = $result[0]['id'];
 
-                    $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
-                    $recupDate->execute([$start]);
+                    $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ? AND id != ?");
+                    $recupDate->execute([$start, $id_comment]);
 
                     if (empty($title)) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";

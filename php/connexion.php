@@ -33,26 +33,36 @@ require "./include/config.php";
         <form method="POST" action="">
             <h3>Login Here</h3>
             <label for="login">Username</label>
-            <input type="text" id="login" name="login" placeholder="Login" required autofocus autocomplete="off">
+            <input type="text" id="login" name="login" placeholder="Login" autofocus autocomplete="off">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder='Password' required autocomplete="off">
+            <input type="password" id="password" name="password" placeholder='Password' autocomplete="off">
             <?php
 
-            if (isset($_POST['envoi'])) {
+            if (isset($_POST['submit'])) {
                 $login = htmlspecialchars($_POST['login']);
-                $password = $_POST['password']; // md5'() pour crypet le mdp
+                $password = $_POST['password'];
 
                 if (!empty($login) && !empty($password)) {
-                    $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ? AND password = ?");
-                    $recupUser->execute([$login, $password]);
+
+                    $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
+                    $recupUser->execute([$login]);
+                    $result = $recupUser->fetch(PDO::FETCH_ASSOC);
+
                     if (!preg_match("#^[a-z0-9]+$#", $login)) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
-                    } elseif ($recupUser->rowCount() > 0) {
-                        $_SESSION['login'] = $login;
-                        $_SESSION['password'] = $password;
-                        $recupUser = $recupUser->fetchAll(PDO::FETCH_ASSOC);
-                        $_SESSION = $recupUser[0];
-                        header("Location: ../index.php");
+                    } elseif ($result) {
+                        $passwordHash = $result['password'];
+
+                        if ($recupUser->rowCount() > 0 && password_verify($password, $passwordHash)) {
+
+                            $_SESSION['login'] = $login;
+                            $_SESSION['password'] = $password;
+                            $_SESSION = $result;
+
+                            header("Location: ../index.php");
+                        } else {
+                            echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVotre login ou mot de passe incorect.</p>";
+                        }
                     } else {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVotre login ou mot de passe incorect.</p>";
                     }
@@ -61,7 +71,7 @@ require "./include/config.php";
                 }
             }
             ?>
-            <input type="submit" name="envoi" value="Log In" id="button">
+            <input type="submit" name="submit" value="Log In" id="button">
         </form>
     </main>
 

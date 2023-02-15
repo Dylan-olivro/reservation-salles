@@ -14,14 +14,24 @@ table {
 .reserver {
   background-color: darkred;
   width: 100%;
-  height: 50px;
   color: #fff;
 }
 .weekend {
+  display: inline-block;
   background: black;
   width: 100%;
-  height: 50px;
+  min-height: 50px;
 }
+
+/* html,
+body,
+main,
+table,
+td,
+.weekend {
+  height: 100%;
+} */
+
 /* .table-bordered {
   border-color: #000;
 } */

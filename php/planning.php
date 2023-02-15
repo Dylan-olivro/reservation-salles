@@ -124,7 +124,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                                         // }
                                     }
                                     if ($column == 6 || $column == 7) {
-                                        echo '<button class="weekend"></button>';
+                                        echo '<button class="weekend" disabled></button>';
                                         break;
                                     }
                                 }

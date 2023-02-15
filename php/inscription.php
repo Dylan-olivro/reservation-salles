@@ -44,25 +44,26 @@ require("./include/config.php");
             <?php
             if (isset($_POST['envoi'])) {
                 $login = htmlspecialchars($_POST['login']);
-                $password = $_POST['password']; // md5'() pour crypet le mdp
-                $cpassword = $_POST['cpassword']; // md5'() pour crypet le mdp
+                $password = $_POST['password'];
+                $confirmPassword = $_POST['cpassword'];
+                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
                 $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
                 $recupUser->execute([$login]);
 
-                if (empty($login) || empty($password) || empty($cpassword)) {
+                if (empty($login) || empty($password) || empty($confirmPassword)) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez complétez tous les champs.</p>";
                 } elseif (!preg_match("#^[a-z0-9]+$#", $login)) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
                 } elseif (strlen($login) > 15) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLogin trop long (15 max).</p>";
-                } elseif ($password != $cpassword) {
+                } elseif ($password != $confirmPassword) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLes deux mots de passe sont differents.</p>";
                 } elseif ($recupUser->rowCount() > 0) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
                 } else {
                     $insertUser = $bdd->prepare("INSERT INTO utilisateurs(login, password)VALUES(?,?)");
-                    $insertUser->execute([$login, $password]);
+                    $insertUser->execute([$login, $passwordHash]);
                     header("Location: connexion.php");
                 }
             }
