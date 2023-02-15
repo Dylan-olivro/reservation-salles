@@ -46,6 +46,7 @@ require("./include/config.php");
                 $login = htmlspecialchars($_POST['login']);
                 $password = $_POST['password']; // md5'() pour crypet le mdp
                 $cpassword = $_POST['cpassword']; // md5'() pour crypet le mdp
+                $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
                 $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
                 $recupUser->execute([$login]);
@@ -62,7 +63,7 @@ require("./include/config.php");
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
                 } else {
                     $insertUser = $bdd->prepare("INSERT INTO utilisateurs(login, password)VALUES(?,?)");
-                    $insertUser->execute([$login, $password]);
+                    $insertUser->execute([$login, $password_hash]);
                     header("Location: connexion.php");
                 }
             }

@@ -37,27 +37,54 @@ require "./include/config.php";
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder='Password' required autocomplete="off">
             <?php
+                        if (isset($_POST['envoi'])) {
+                            $login = htmlspecialchars($_POST['login']);
+                            $password = $_POST['password']; // md5'() pour crypet le mdp
+            
+                            if (!empty($login) && !empty($password)) {
+                                $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ? AND password = ?");
+                                $recupUser->execute([$login, $password]);
+                                if (!preg_match("#^[a-z0-9]+$#", $login)) {
+                                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
+                                } elseif ($recupUser->rowCount() > 0) {
+                                    $_SESSION['login'] = $login;
+                                    $_SESSION['password'] = $password;
+                                    $recupUser = $recupUser->fetchAll(PDO::FETCH_ASSOC);
+                                    $_SESSION = $recupUser[0];
+                                    header("Location: ../index.php");
+                                } else {
+                                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVotre login ou mot de passe incorect.</p>";
+                                }
+                            } else {
+                                echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez compléter tous les champs.</p>";
+                            }
+                        }
+            
 
-            if (isset($_POST['envoi'])) {
+            if (!empty($_POST['login']) && !empty($_POST['password'])) {
                 $login = htmlspecialchars($_POST['login']);
-                $password = $_POST['password']; // md5'() pour crypet le mdp
+                $password = $_POST['password'];
 
-                if (!empty($login) && !empty($password)) {
-                    $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ? AND password = ?");
-                    $recupUser->execute([$login, $password]);
-                    if (!preg_match("#^[a-z0-9]+$#", $login)) {
-                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
-                    } elseif ($recupUser->rowCount() > 0) {
-                        $_SESSION['login'] = $login;
-                        $_SESSION['password'] = $password;
-                        $recupUser = $recupUser->fetchAll(PDO::FETCH_ASSOC);
-                        $_SESSION = $recupUser[0];
-                        header("Location: ../index.php");
+                var_dump($login);
+                var_dump($password);
+
+                $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
+                $recupUser->execute([$login]);
+                $result = $recupUser->fetch(PDO::FETCH_ASSOC);
+
+                // var_dump($result);
+
+                if ($result) {
+                    $passwordHash = $result['password'];
+
+                    if (password_verify($password, $passwordHash)) {
+                        echo "Connexion réussie !";
                     } else {
-                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVotre login ou mot de passe incorect.</p>";
+                        echo "Identifiants invalides";
+                        // var_dump(password_verify($password, $passwordHash));
                     }
                 } else {
-                    echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez compléter tous les champs.</p>";
+                    echo "Identifiants invalides";
                 }
             }
             ?>
