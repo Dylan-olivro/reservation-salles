@@ -74,6 +74,9 @@ if ($_SESSION['login'] == false) {
                     } else {
                         echo '<a href="planning.php"><input id="button" value="Planning"></input></a>';
                     }
+                    if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
+                        echo "<a href='edit.php?id=" . $id . "'><input id='button' value='Editer'></input></a>";
+                    }
                     ?>
                 </form>
 

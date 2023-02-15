@@ -1,7 +1,25 @@
 <?php
 session_start();
 require("./include/config.php");
+
+if ($_SESSION['login'] == false) {
+    header("Location: ./planning.php");
+}
+
 $pre_date = date("Y-m-d");
+$id_commentaire = $_GET['id'];
+$requete_resa = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
+$requete_resa->execute([$id_commentaire]);
+$resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
+// var_dump($resultat);
+// var_dump($resultat[0]['debut']);
+// $a = strtotime($resultat[0]['debut']);
+// var_dump($a);
+// var_dump($id_commentaire);
+// $resultat[0]['debut'] = mktime("Y-m-d");
+// var_dump($resultat[0]['debut']);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +53,9 @@ $pre_date = date("Y-m-d");
                 <h3>Demande de réservation</h3>
 
                 <label for="titre">Titre</label>
-                <input type="text" placeholder="Titre" name="titre" required>
+                <input type="text" placeholder="Titre" name="titre" value="<?= $resultat[0]['titre'] ?>" required>
                 <label for="description">Description</label>
-                <textarea id="description" placeholder="Description" name="description"></textarea>
+                <textarea id="description" placeholder="Description" name="description"><?= $resultat[0]['description'] ?></textarea>
                 <label for="debut">Date</label>
                 <input type="date" name="date-debut" value="<?= $pre_date ?>" required>
                 <label for="heure">Heure de démarrage</label>
@@ -89,10 +107,7 @@ $pre_date = date("Y-m-d");
                     $dateInt = date('N', strtotime($dayStart));
                     $commentaire = $_POST['description'];
 
-                    $request = $bdd->prepare("SELECT id FROM utilisateurs WHERE login ='" . $_SESSION['login'] . "'");
-                    $request->execute();
-                    $id = $request->fetchAll();
-                    $id_utilisateur = $id[0][0];
+                    $id_utilisateur = $resultat[0]['id'];
 
                     $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
                     $recupDate->execute([$debut]);
@@ -118,9 +133,9 @@ $pre_date = date("Y-m-d");
                     } elseif ($recupDate->rowCount() > 0) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
                     } else {
-                        $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
-                        $request2->execute();
-                        header('Location:planning.php');
+                        $request2 = $bdd->prepare("UPDATE reservations SET titre=?, description=?, debut=?, fin=?, id_utilisateur=? WHERE id = $id_commentaire");
+                        $request2->execute([$titre, $description, $debut, $fin, $id_utilisateur]);
+                        // header('Location:planning.php');
                     }
                 }
                 ?>
