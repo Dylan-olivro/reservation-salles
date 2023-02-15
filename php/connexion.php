@@ -56,7 +56,7 @@ require "./include/config.php";
                         if ($recupUser->rowCount() > 0 && password_verify($password, $passwordHash)) {
 
                             $_SESSION['login'] = $login;
-                            $_SESSION['password'] = $password;
+                            $_SESSION['password'] = $passwordHash;
                             $_SESSION = $result;
 
                             header("Location: ../index.php");

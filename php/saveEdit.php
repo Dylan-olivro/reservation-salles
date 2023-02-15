@@ -44,52 +44,36 @@ require "./include/config.php";
             <?php
             if (isset($_POST['submit'])) {
                 $login = htmlspecialchars($_POST['login']);
-                $password = $_POST['password'];
+                $password = $_POST['password']; // md5'() pour crypet le 
                 $newPassword = $_POST['newpassword'];
-                $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
                 $confirmNewPassword = $_POST['cnewpassword'];
                 $id = $_SESSION['id'];
 
                 $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ? AND id != ?");
                 $recupUser->execute([$login, $id]);
-
                 $insertUser = $bdd->prepare("UPDATE utilisateurs SET login = ? , password=  ? WHERE id = ?");
-
 
                 if (empty($login) || empty($password)) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspVeuillez complétez tous les champs.</p>";
                 } elseif (!preg_match("#^[a-z0-9]+$#", $login)) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspLe login doit être renseigné en lettres minuscules sans accents, sans caractères spéciaux.</p>";
+                } elseif ($password != $_SESSION['password']) {
+                    echo  "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe n'est pas le bon mot de passe</p>";
                 } elseif ($recupUser->rowCount() > 0) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
                 } else {
-                    $recupPassword = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
-                    $recupPassword->execute([$login]);
-                    $result = $recupPassword->fetch(PDO::FETCH_ASSOC);
-                    $passwordHash = $result['password'];
-
-                    if ($password != password_verify($password, $passwordHash)) {
-                        echo  "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe n'est pas le bon mot de passe</p>";
+                    if ($newPassword == $_SESSION['password'] && $newPassword == $password) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMot de passe similaire</p>";
+                    } elseif ($newPassword == $confirmNewPassword && $newPassword != null && $confirmNewPassword != null) {
+                        $insertUser->execute([$login, $newPassword, $id]);
+                        $_SESSION['login'] = $login;
+                        $_SESSION['password'] = $newPassword;
+                        header("Location: profil.php");
                     } else {
-
-                        if ($newPassword == password_verify($newPassword, $passwordHash) && $newPassword == $password) {
-                            echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMot de passe similaire</p>";
-                        } elseif ($newPassword == $confirmNewPassword && $newPassword != null && $confirmNewPassword != null) {
-                            $insertUser->execute([$login, $newPasswordHash, $id]);
-                            $_SESSION['login'] = $login;
-                            $_SESSION['password'] = $newPasswordHash;
-                            header("Location: profil.php");
-                        } else {
-                            if ($result) {
-
-                                if (password_verify($password, $passwordHash)) {
-                                    $insertUser->execute([$login, $passwordHash, $id]);
-                                    $_SESSION['login'] = $login;
-                                    $_SESSION['password'] = $result['password'];
-                                    header("Location: profil.php");
-                                }
-                            }
-                        }
+                        $insertUser->execute([$login, $password, $id]);
+                        $_SESSION['login'] = $login;
+                        $_SESSION['password'] = $password;
+                        header("Location: profil.php");
                     }
                 }
             }
