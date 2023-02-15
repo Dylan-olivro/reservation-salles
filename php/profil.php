@@ -42,11 +42,11 @@ require "./include/config.php";
             <label for="cnewpassword">Confirmation</label>
             <input type="password" name="cnewpassword" id="cnewpassword" />
             <?php
-            if (isset($_POST['envoi'])) {
+            if (isset($_POST['submit'])) {
                 $login = htmlspecialchars($_POST['login']);
                 $password = $_POST['password']; // md5'() pour crypet le 
-                $newpassword = $_POST['newpassword'];
-                $cnewpassword = $_POST['cnewpassword'];
+                $newPassword = $_POST['newpassword'];
+                $confirmNewPassword = $_POST['cnewpassword'];
                 $id = $_SESSION['id'];
 
                 $recupUser = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ? AND id != ?");
@@ -62,12 +62,12 @@ require "./include/config.php";
                 } elseif ($recupUser->rowCount() > 0) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
                 } else {
-                    if ($newpassword == $_SESSION['password'] && $newpassword == $password) {
+                    if ($newPassword == $_SESSION['password'] && $newPassword == $password) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMot de passe similaire</p>";
-                    } elseif ($newpassword == $cnewpassword && $newpassword != null && $cnewpassword != null) {
-                        $insertUser->execute([$login, $newpassword, $id]);
+                    } elseif ($newPassword == $confirmNewPassword && $newPassword != null && $confirmNewPassword != null) {
+                        $insertUser->execute([$login, $newPassword, $id]);
                         $_SESSION['login'] = $login;
-                        $_SESSION['password'] = $newpassword;
+                        $_SESSION['password'] = $newPassword;
                         header("Location: profil.php");
                     } else {
                         $insertUser->execute([$login, $password, $id]);
@@ -78,7 +78,7 @@ require "./include/config.php";
                 }
             }
             ?>
-            <input type="submit" name="envoi" id="button" value="Edit">
+            <input type="submit" name="submit" id="button" value="Edit">
         </form>
 
     </main>

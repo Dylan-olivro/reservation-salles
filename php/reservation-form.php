@@ -1,7 +1,7 @@
 <?php
 session_start();
 require("./include/config.php");
-$pre_date = date("Y-m-d");
+$defined_date = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ $pre_date = date("Y-m-d");
                 <label for="description">Description</label>
                 <textarea id="description" placeholder="Description" name="description"></textarea>
                 <label for="debut">Date</label>
-                <input type="date" name="date-debut" value="<?= $pre_date ?>" required>
+                <input type="date" name="date-debut" value="<?= $defined_date ?>" required>
                 <label for="heure">Heure de démarrage</label>
                 <select name="heure-debut" id="">
                     <option value="08">8h</option>
@@ -71,37 +71,37 @@ $pre_date = date("Y-m-d");
                 </select>
                 <?php
 
-                function triche_entites($texte)
+                function cheat_entities($text)
                 {
-                    return preg_replace('/&.*;/U', 'a', $texte);
+                    return preg_replace('/&.*;/U', 'a', $text);
                 }
 
                 if (isset($_POST['submit'])) {
 
                     //Variables
-                    $titre = htmlspecialchars($_POST['titre']);
+                    $title = htmlspecialchars($_POST['titre']);
                     $description = htmlspecialchars($_POST['description']);
-                    $debut = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
-                    $fin = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
+                    $start = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
+                    $end = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
                     $dayStart = htmlspecialchars($_POST['date-debut']);
                     // $dimanche = date("N", strtotime('sunday'));
                     $date = date('Y-m-d H');
                     $dateInt = date('N', strtotime($dayStart));
-                    $commentaire = $_POST['description'];
+                    $comment = $_POST['description'];
 
                     $request = $bdd->prepare("SELECT id FROM utilisateurs WHERE login ='" . $_SESSION['login'] . "'");
                     $request->execute();
                     $id = $request->fetchAll();
-                    $id_utilisateur = $id[0][0];
+                    $id_user = $id[0][0];
 
                     $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
-                    $recupDate->execute([$debut]);
+                    $recupDate->execute([$start]);
 
-                    if (empty($titre)) {
+                    if (empty($title)) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";
                     } elseif (empty($_POST['date-debut'])) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspSélectionnez une date.</p>";
-                    } elseif ($date > $debut) {
+                    } elseif ($date > $start) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspDate déjà passée.</p>";
                     } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
@@ -111,15 +111,15 @@ $pre_date = date("Y-m-d");
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
                     } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
-                    } elseif (strlen($titre) > 15) {
+                    } elseif (strlen($title) > 15) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspTitre trop long (15 max).</p>";
-                    } elseif (strlen($commentaire) > 1000) {
+                    } elseif (strlen($comment) > 1000) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCommentaire trop long (1000 max).</p>";
                     } elseif ($recupDate->rowCount() > 0) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
                     } else {
-                        $request2 = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$titre', '$description', '$debut', '$fin', $id_utilisateur)");
-                        $request2->execute();
+                        $insertRequest = $bdd->prepare("INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES ('$title', '$description', '$start', '$end', $id_user)");
+                        $insertRequest->execute();
                         header('Location:planning.php');
                     }
                 }

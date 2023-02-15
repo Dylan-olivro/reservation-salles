@@ -2,9 +2,9 @@
 session_start();
 require("./include/config.php");
 
-$requete_resa = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
-$requete_resa->execute();
-$resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
+$resa_request = $bdd->prepare("SELECT * FROM utilisateurs INNER JOIN reservations ON utilisateurs.id = reservations.id_utilisateur");
+$resa_request->execute();
+$result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -54,13 +54,13 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <center>
+                    <div class="planning">
                         <!-- METTRE UN AUTRE TITRE -->
                         <h2><?php ?></h2>
                         <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year; ?>">Pre Week</a> <!--Previous week-->
                         <a class="btn btn-primary btn-xs" href="planning.php">Current Week</a> <!--Current week-->
                         <a class="btn btn-primary btn-xs" href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a><!--Next week-->
-                    </center>
+                    </div>
 
 
                     <table class="table table-bordered">
@@ -80,24 +80,24 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                         </tr>
                         <?php
                         // boucle pour la colonne des heures
-                        for ($ligne = 8; $ligne <= 19; $ligne++) {
+                        for ($line = 8; $line <= 19; $line++) {
                             echo '<tr>';
-                            echo "<td style='font-weight:bold;'>" . $ligne . "h</td>";
+                            echo "<td style='font-weight:bold;'>" . $line . "h</td>";
                             // boucle pour la ligne des jours de la semaine
-                            for ($colonne = 1; $colonne <= 7; $colonne++) {
+                            for ($column = 1; $column <= 7; $column++) {
                                 echo "<td style='text-align:center;'>";
-                                foreach ($resultat as $value) {
+                                foreach ($result as $value) {
 
-                                    $id = $value['id'];
-                                    $jour = date("N", strtotime($value['debut']));
-                                    $heure = date("H", strtotime($value['debut']));
-                                    $annee = date("o", strtotime($value['debut']));
-                                    $semaine = date("W", strtotime($value['debut']));
-                                    // var_dump($colonne);
-                                    // var_dump($semaine);
+                                    $id_comment = $value['id'];
+                                    $day = date("N", strtotime($value['debut']));
+                                    $resa_hour = date("H", strtotime($value['debut']));
+                                    $resa_year = date("o", strtotime($value['debut']));
+                                    $resa_week = date("W", strtotime($value['debut']));
+                                    // var_dump($column);
+                                    // var_dump($resa_week);
                                     // var_dump($mois)
-                                    // var_dump($annee);
-                                    // if($semaine == $week){
+                                    // var_dump($resa_year);
+                                    // if($resa_week == $week){
                                     //     var_dump($_GET['week']);
 
                                     //     var_dump('OK');
@@ -108,18 +108,11 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                     // var_dump($year);
 
                                     // var_dump($value['debut']);
-                                    $creneau = $heure == $ligne && $jour == $colonne && $annee == $year  && $week == $semaine;
+                                    $timeSlot = $resa_hour == $line && $day == $column && $resa_year == $year  && $week == $resa_week;
 
-                                    if ($creneau) {
+                                    if ($timeSlot) {
                                         if ($value) {
-                                            echo "<a href='reservation.php?id=" . $id . "'>
-                                            <button style='background:darkred; 
-                                                        width:100%; 
-                                                        height:50px;
-                                                        color:#fff'>
-                                            $value[login]<br>$value[titre]
-                                            </button>
-                                            </a>";
+                                            echo "<a href='reservation.php?id=" . $id_comment . "'><button class='reserver'>$value[login]<br>$value[titre]</button></a>";
                                         } else {
                                             echo 'vide';
                                         }
@@ -130,8 +123,8 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                                         //     echo 'vide';
                                         // }
                                     }
-                                    if ($colonne == 6 || $colonne == 7) {
-                                        echo '<button style="background:black; width:100%; height:50px;"></button>';
+                                    if ($column == 6 || $column == 7) {
+                                        echo '<button class="weekend"></button>';
                                         break;
                                     }
                                 }

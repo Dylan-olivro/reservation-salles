@@ -2,11 +2,11 @@
 session_start();
 require("./include/config.php");
 // var_dump($_SESSION);
-$id = $_GET['id'];
-$requete_resa = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
-$requete_resa->execute([$id]);
-$resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
-// var_dump($resultat);
+$id_comment = $_GET['id'];
+$resa_request = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
+$resa_request->execute([$id_comment]);
+$result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
+// var_dump($result);
 if ($_SESSION['login'] == false) {
     header("Location: ./planning.php");
 }
@@ -44,7 +44,7 @@ if ($_SESSION['login'] == false) {
         ?>
 
         <?php
-        foreach ($resultat as $reservation) {
+        foreach ($result as $reservation) {
         ?>
 
             <div class="infos">
@@ -63,19 +63,19 @@ if ($_SESSION['login'] == false) {
                 <p class="valeur"><?php echo $reservation['fin'] ?></p>
                 <form action="" method="post">
                     <?php
-                    // var_dump($resultat);
+                    // var_dump($result);
                     if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
-                        echo '<button type="submit "name="delete" value="Supprimer" id="button">Supprimer</button>';
+                        echo '<button type="submit "name="delete" value="Supprimer" id="button" onclick="return confirm(`Voulez vous vraiment supprimer votre reservation ?`)">Supprimer</button>';
                         if (isset($_POST['delete'])) {
-                            $suppr_resa = $bdd->prepare("DELETE FROM reservations WHERE id = ?");
-                            $suppr_resa->execute([$id]);
+                            $delete_resa = $bdd->prepare("DELETE FROM reservations WHERE id = ?");
+                            $delete_resa->execute([$id_comment]);
                             header('Location: planning.php');
                         }
                     } else {
                         echo '<a href="planning.php"><input id="button" value="Planning"></input></a>';
                     }
                     if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
-                        echo "<a href='edit.php?id=" . $id . "'><input id='button' value='Editer'></input></a>";
+                        echo "<a href='edit.php?id=" . $id_comment . "'><input id='button' value='Editer'></input></a>";
                     }
                     ?>
                 </form>

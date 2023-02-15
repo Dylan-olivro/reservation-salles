@@ -6,18 +6,18 @@ if ($_SESSION['login'] == false) {
     header("Location: ./planning.php");
 }
 
-$pre_date = date("Y-m-d");
-$id_commentaire = $_GET['id'];
-$requete_resa = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
-$requete_resa->execute([$id_commentaire]);
-$resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
-// var_dump($resultat);
-// var_dump($resultat[0]['debut']);
-// $a = strtotime($resultat[0]['debut']);
+$defined_date = date("Y-m-d");
+$id_comment = $_GET['id'];
+$resa_request = $bdd->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = ?");
+$resa_request->execute([$id_comment]);
+$result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
+// var_dump($result);
+// var_dump($result[0]['debut']);
+// $a = strtotime($result[0]['debut']);
 // var_dump($a);
-// var_dump($id_commentaire);
-// $resultat[0]['debut'] = mktime("Y-m-d");
-// var_dump($resultat[0]['debut']);
+// var_dump($id_comment);
+// $result[0]['debut'] = mktime("Y-m-d");
+// var_dump($result[0]['debut']);
 
 
 ?>
@@ -53,11 +53,11 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                 <h3>Demande de réservation</h3>
 
                 <label for="titre">Titre</label>
-                <input type="text" placeholder="Titre" name="titre" value="<?= $resultat[0]['titre'] ?>" required>
+                <input type="text" placeholder="Titre" name="titre" value="<?= $result[0]['titre'] ?>" required>
                 <label for="description">Description</label>
-                <textarea id="description" placeholder="Description" name="description"><?= $resultat[0]['description'] ?></textarea>
+                <textarea id="description" placeholder="Description" name="description"><?= $result[0]['description'] ?></textarea>
                 <label for="debut">Date</label>
-                <input type="date" name="date-debut" value="<?= $pre_date ?>" required>
+                <input type="date" name="date-debut" value="<?= $defined_date ?>" required>
                 <label for="heure">Heure de démarrage</label>
                 <select name="heure-debut" id="">
                     <option value="08">8h</option>
@@ -97,26 +97,26 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                 if (isset($_POST['submit'])) {
 
                     //Variables
-                    $titre = htmlspecialchars($_POST['titre']);
+                    $title = htmlspecialchars($_POST['titre']);
                     $description = htmlspecialchars($_POST['description']);
-                    $debut = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
-                    $fin = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
+                    $start = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
+                    $end = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-fin'];
                     $dayStart = htmlspecialchars($_POST['date-debut']);
                     // $dimanche = date("N", strtotime('sunday'));
                     $date = date('Y-m-d H');
                     $dateInt = date('N', strtotime($dayStart));
-                    $commentaire = $_POST['description'];
+                    $comment = $_POST['description'];
 
-                    $id_utilisateur = $resultat[0]['id'];
+                    $id_user = $result[0]['id'];
 
                     $recupDate = $bdd->prepare("SELECT * FROM reservations WHERE debut = ?");
-                    $recupDate->execute([$debut]);
+                    $recupDate->execute([$start]);
 
-                    if (empty($titre)) {
+                    if (empty($title)) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRentrez un titre.</p>";
                     } elseif (empty($_POST['date-debut'])) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspSélectionnez une date.</p>";
-                    } elseif ($date > $debut) {
+                    } elseif ($date > $start) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspDate déjà passée.</p>";
                     } elseif ($_POST['heure-fin'] < $_POST['heure-debut']) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
@@ -126,15 +126,15 @@ $resultat = $requete_resa->fetchALL(PDO::FETCH_ASSOC);
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
                     } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
-                    } elseif (strlen($titre) > 15) {
+                    } elseif (strlen($title) > 15) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspTitre trop long (15 max).</p>";
-                    } elseif (strlen($commentaire) > 1000) {
+                    } elseif (strlen($comment) > 1000) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCommentaire trop long (1000 max).</p>";
                     } elseif ($recupDate->rowCount() > 0) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
                     } else {
-                        $request2 = $bdd->prepare("UPDATE reservations SET titre=?, description=?, debut=?, fin=?, id_utilisateur=? WHERE id = $id_commentaire");
-                        $request2->execute([$titre, $description, $debut, $fin, $id_utilisateur]);
+                        $updateRequest = $bdd->prepare("UPDATE reservations SET titre=?, description=?, debut=?, fin=?, id_utilisateur=? WHERE id = $id_comment");
+                        $updateRequest->execute([$title, $description, $start, $end, $id_user]);
                         // header('Location:planning.php');
                     }
                 }
