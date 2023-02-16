@@ -7,7 +7,7 @@ $resa_request->execute();
 $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -80,7 +80,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                         </tr>
                         <?php
                         // boucle pour la colonne des heures
-                        for ($line = 8; $line <= 19; $line++) {
+                        for ($line = 8; $line <= 18; $line++) {
                             echo '<tr>';
                             echo "<td style='font-weight:bold;'>" . $line . "h</td>";
                             // boucle pour la ligne des jours de la semaine

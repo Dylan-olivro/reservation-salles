@@ -44,7 +44,7 @@ if ($_SESSION['login'] == false) {
                 <textarea id="description" placeholder="Description" name="description"></textarea>
                 <label for="debut">Date</label>
                 <input type="date" name="date-debut" value="<?= $defined_date ?>" required>
-                <label for="heure">Heure de démarrage</label>
+                <label for="heure">Heure de démarrage (créneaux d'une heure)</label>
                 <select name="heure-debut" id="">
                     <option value="08">8h</option>
                     <option value="09">9h</option>
@@ -58,31 +58,17 @@ if ($_SESSION['login'] == false) {
                     <option value="17">17h</option>
                     <option value="18">18h</option>
                 </select>
-                <label for="heure">Heure de fin</label>
-                <!-- <input type="time" name="heure-fin">   -->
-                <select name="heure-fin" id="">
-                    <option value="09">9h</option>
-                    <option value="10">10h</option>
-                    <option value="11">11h</option>
-                    <option value="12">12h</option>
-                    <option value="13">13h</option>
-                    <option value="14">14h</option>
-                    <option value="15">15h</option>
-                    <option value="16">16h</option>
-                    <option value="17">17h</option>
-                    <option value="18">18h</option>
-                    <option value="19">19h</option>
-                </select>
+
+                <button name="heure-fin" id=""></button>
                 <?php
 
                 function cheat_entities($text)
                 {
                     return preg_replace('/&.*;/U', 'a', $text);
                 }
-
                 if (isset($_POST['submit'])) {
-
                     //Variables
+                    $_POST['heure-fin'] = $_POST['heure-debut'] + 1;
                     $title = htmlspecialchars($_POST['titre']);
                     $description = htmlspecialchars($_POST['description']);
                     $start = htmlspecialchars($_POST['date-debut']) . " " . $_POST['heure-debut'];
@@ -111,6 +97,8 @@ if ($_SESSION['login'] == false) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspHeure de FIN supérieure à celle du début.</p>";
                     } elseif ($_POST['heure-fin'] - $_POST['heure-debut'] > 1) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspUne heure maximum.</p>";
+                    } elseif ($_POST['heure-debut'] > 18 || $_POST['heure-debut'] < 8) {
+                        echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspRéserver entre 8h et 18h.</p>";
                     } elseif ($dateInt == 6 || $dateInt == 7) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
                     } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {

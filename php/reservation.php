@@ -12,7 +12,7 @@ if ($_SESSION['login'] == false) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -65,7 +65,7 @@ if ($_SESSION['login'] == false) {
                     <?php
                     // var_dump($result);
                     if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
-                        echo '<button type="submit "name="delete" value="Supprimer" id="button" onclick="return confirm(`Voulez vous vraiment supprimer votre reservation ?`)">Supprimer</button>';
+                        echo '<button type="submit "name="delete" value="Supprimer" id="button" onclick="return confirm(`Voulez vous vraiment supprimer votre réservation ?`)">Supprimer</button>';
                         if (isset($_POST['delete'])) {
                             $delete_resa = $bdd->prepare("DELETE FROM reservations WHERE id = ?");
                             $delete_resa->execute([$id_comment]);

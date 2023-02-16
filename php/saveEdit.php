@@ -3,7 +3,7 @@ session_start();
 require "./include/config.php";
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" dir="ltr">
 
 <head>
     <meta charset="UTF-8">

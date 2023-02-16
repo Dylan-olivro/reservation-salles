@@ -7,7 +7,7 @@ if ($_SESSION['login'] != 'admin') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
