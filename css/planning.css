@@ -35,9 +35,32 @@ td,
 /* .table-bordered {
   border-color: #000;
 } */
-@media screen and (max-width: 1200px) {
+/* @media screen and (max-width: 1200px) {
   .container {
     width: 100% !important;
     margin: 0;
+  }
+} */
+@media screen and (max-width:768px) {
+  /* header, footer, .planning{
+    width: 155%;
+  } */
+  /* .row{
+    margin-right: 15px;
+  } */
+}
+@media screen and (max-width:425px) {
+  header, footer, .planning{
+    width: 155%;
+  }
+}
+@media screen and (max-width:375px) {
+  header, footer, .planning{
+    width: 180%;
+  }
+}
+@media screen and (max-width:320px) {
+  header, footer, .planning{
+    width: 205%;
   }
 }
