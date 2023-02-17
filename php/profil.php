@@ -68,12 +68,9 @@ if ($_SESSION['login'] == false) {
                     echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe login est déjà utilisé.</p>";
                 } else {
                     $recupPassword = $bdd->prepare("SELECT password FROM utilisateurs WHERE login = ?");
-                    $recupPassword->execute([$login]);
+                    $recupPassword->execute([$_SESSION['login']]);
                     $result = $recupPassword->fetchAll();
                     $passwordHash = $result[0]['password'];
-                    var_dump($passwordHash);
-                    echo '<br>';
-                    var_dump($result);
 
                     if ($password != password_verify($password, $passwordHash)) {
                         echo  "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCe n'est pas le bon mot de passe</p>";
