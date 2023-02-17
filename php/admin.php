@@ -52,6 +52,18 @@ if ($_SESSION['login'] != 'admin') {
                     <tr>
                         <td><?= $result[$i]['id'] ?></td>
                         <td><?= $result[$i]['login'] ?></td>
+                        <td>
+                            <form action="" method="post">
+                                <?php
+                                if ($_SESSION['login'] == 'admin') {
+                                    echo "<a href='delete.php?id=" . $result[$i]['id'] . "'><button class='delete'>Supprimer</button></a>";
+                                    // $delete_user = $bdd->prepare("DELETE FROM utilisateurs WHERE id = ?");
+                                    // $delete_user->execute([$result[$i]['id']]);
+                                    // header('Location: planning.php');
+                                }
+                                ?>
+                            </form>
+                        </td>
                     </tr>
                 <?php endfor; ?>
             </tbody>
