@@ -29,6 +29,7 @@ require "./php/include/config.php"
     </header>
 
     <main>
+        <h1 class="titreIndex">Bienvenue sur votre site de réservation de salles !</h1>
         <style>
             body {
                 background-image: url(./assets/salle.jpg);
