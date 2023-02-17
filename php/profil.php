@@ -115,7 +115,7 @@ if ($_SESSION['login'] == false) {
 
     </main>
 
-    <footer>
+    <footer id="footerProfil">
         <a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a>
         <a href="https://github.com/Charles-Caltagirone"><i class="fa-brands fa-github"></i></a>
     </footer>

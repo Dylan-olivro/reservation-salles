@@ -140,7 +140,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
 
     </main>
 
-    <footer>
+    <footer id="footerPlanning">
         <a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a>
         <a href="https://github.com/Charles-Caltagirone"><i class="fa-brands fa-github"></i></a>
     </footer>

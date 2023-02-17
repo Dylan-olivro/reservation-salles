@@ -120,7 +120,7 @@ if ($_SESSION['login'] == false) {
             </form>
     </main>
 
-    <footer>
+    <footer id="footerReser">
         <a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a>
         <a href="https://github.com/Charles-Caltagirone"><i class="fa-brands fa-github"></i></a>
     </footer>

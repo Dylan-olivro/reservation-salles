@@ -20,12 +20,7 @@ main {
   position:relative;
   /* padding-bottom:100px;   Hauteur du pied de page */
 }
-footer {
-  /* position:absolute; */
-  bottom:0;  /* on le colle en bas */
-  width:100%;
-  /* height:100px;   Hauteur du pied de page */
-}
+
 /* NAV */
 nav {
   display: flex;
@@ -47,10 +42,22 @@ header i {
   padding: 5px;
   border-radius: 50px;
 }
-footer {
+/* #footerPlanning{
+  position: static;
+}
+#footerReser{
+  position: static;
+}
+#footerProfil{
+  position: static;
+} */
+footer{
+  position: absolute;
   text-align: center;
-  margin: 15px 0;
-  padding-bottom: 10px;
+  /* background-color: black; */
+  padding-bottom: 0;
+  /* bottom:1em;  on le colle en bas */
+  width:100%;
 }
 footer a {
   text-decoration: none;

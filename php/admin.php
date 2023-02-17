@@ -105,7 +105,7 @@ if ($_SESSION['login'] != 'admin') {
         </style>
     </main>
 
-    <footer>
+    <footer id="footerAdmin">
         <a href="https://github.com/Dylan-olivro"><i class="fa-brands fa-github"></i></a>
         <a href="https://github.com/Charles-Caltagirone"><i class="fa-brands fa-github"></i></a>
     </footer>
