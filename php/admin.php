@@ -45,6 +45,7 @@ if ($_SESSION['login'] != 'admin') {
                     foreach ($result[0] as $key => $value) : ?>
                         <th><?= $key ?></th>
                     <?php endforeach; ?>
+                    <th>suppression</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,16 +54,13 @@ if ($_SESSION['login'] != 'admin') {
                         <td><?= $result[$i]['id'] ?></td>
                         <td><?= $result[$i]['login'] ?></td>
                         <td>
-                            <form action="" method="post">
-                                <?php
-                                if ($_SESSION['login'] == 'admin') {
-                                    echo "<a href='delete.php?id=" . $result[$i]['id'] . "'><button class='delete'>Supprimer</button></a>";
-                                    // $delete_user = $bdd->prepare("DELETE FROM utilisateurs WHERE id = ?");
-                                    // $delete_user->execute([$result[$i]['id']]);
-                                    // header('Location: planning.php');
-                                }
-                                ?>
-                            </form>
+                            <?php
+                            if ($result[$i]['login'] == 'admin') {
+                                echo 'IMPOSSIBLE';
+                            } else {
+                                echo "<a href='delete.php?id=" . $result[$i]['id'] . "'><i class='fa-solid fa-xmark'></i></a>";
+                            }
+                            ?>
                         </td>
                     </tr>
                 <?php endfor; ?>
@@ -94,6 +92,7 @@ if ($_SESSION['login'] != 'admin') {
 
             th,
             td {
+                width: 33%;
                 padding: 0.5em;
                 border: 1px solid;
                 text-align: center;
@@ -101,6 +100,11 @@ if ($_SESSION['login'] != 'admin') {
 
             tr:hover {
                 background-color: rgba(255, 255, 255, 0.3);
+            }
+
+            td i {
+                color: red;
+                height: 100%;
             }
         </style>
     </main>
