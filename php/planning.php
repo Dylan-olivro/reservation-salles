@@ -100,6 +100,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                                     $timeSlot = $resa_hour == $line && $day == $column && $resa_year == $year  && $week == $resa_week;
                                     if ($timeSlot) {
                                         $signal = 1;
+                                        break;
                                     }
                                 }
                                 if ($column == 6 || $column == 7) {
@@ -107,7 +108,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                                 } else if ($signal == 1) {
                                     echo "<a href='reservation.php?id=" . $id_comment . "'><button class='reserver'>$value[login]<br>$value[titre]</button></a>";
                                 } else if ($signal == 0)
-                                    echo "<a href='reservation-form.php'><button class='case'>Réserver</button></a>";
+                                    echo "<a href='reservation-form.php'><button class='case'>Disponible</button></a>";
                                 echo '</td>';
                             }
                             echo '</tr>';
