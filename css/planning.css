@@ -16,6 +16,12 @@ table {
   width: 100%;
   color: #fff;
 }
+.case {
+  display: inline-block;
+  background: green;
+  width: 100%;
+  min-height: 50px;
+}
 .weekend {
   display: inline-block;
   background: black;
@@ -41,7 +47,7 @@ td,
     margin: 0;
   }
 } */
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   /* header, footer, .planning{
     width: 155%;
   } */
@@ -49,18 +55,24 @@ td,
     margin-right: 15px;
   } */
 }
-@media screen and (max-width:425px) {
-  header, footer, .planning{
+@media screen and (max-width: 425px) {
+  header,
+  footer,
+  .planning {
     width: 155%;
   }
 }
-@media screen and (max-width:375px) {
-  header, footer, .planning{
+@media screen and (max-width: 375px) {
+  header,
+  footer,
+  .planning {
     width: 180%;
   }
 }
-@media screen and (max-width:320px) {
-  header, footer, .planning{
+@media screen and (max-width: 320px) {
+  header,
+  footer,
+  .planning {
     width: 205%;
   }
 }

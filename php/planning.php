@@ -107,7 +107,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                                 } else if ($signal == 1) {
                                     echo "<a href='reservation.php?id=" . $id_comment . "'><button class='reserver'>$value[login]<br>$value[titre]</button></a>";
                                 } else if ($signal == 0)
-                                    echo "vide";
+                                    echo "<a href='reservation-form.php'><button class='case'>Réserver</button></a>";
                                 echo '</td>';
                             }
                             echo '</tr>';
