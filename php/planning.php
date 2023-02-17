@@ -79,6 +79,7 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                             ?>
                         </tr>
                         <?php
+
                         // boucle pour la colonne des heures
                         for ($line = 8; $line <= 18; $line++) {
                             echo '<tr>';
@@ -86,6 +87,8 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                             // boucle pour la ligne des jours de la semaine
                             for ($column = 1; $column <= 7; $column++) {
                                 echo "<td style='text-align:center;'>";
+                                $signal = 0;
+
                                 foreach ($result as $value) {
 
                                     $id_comment = $value['id'];
@@ -93,41 +96,18 @@ $result = $resa_request->fetchALL(PDO::FETCH_ASSOC);
                                     $resa_hour = date("H", strtotime($value['debut']));
                                     $resa_year = date("o", strtotime($value['debut']));
                                     $resa_week = date("W", strtotime($value['debut']));
-                                    // var_dump($column);
-                                    // var_dump($resa_week);
-                                    // var_dump($mois)
-                                    // var_dump($resa_year);
-                                    // if($resa_week == $week){
-                                    //     var_dump($_GET['week']);
 
-                                    //     var_dump('OK');
-                                    // }
-                                    // var_dump($day);
-                                    // var_dump($week);
-                                    // var_dump($month);
-                                    // var_dump($year);
-
-                                    // var_dump($value['debut']);
                                     $timeSlot = $resa_hour == $line && $day == $column && $resa_year == $year  && $week == $resa_week;
-
                                     if ($timeSlot) {
-                                        if ($value) {
-                                            echo "<a href='reservation.php?id=" . $id_comment . "'><button class='reserver'>$value[login]<br>$value[titre]</button></a>";
-                                        } else {
-                                            echo 'vide';
-                                        }
-
-                                        // if ($id) {
-                                        //     echo "date";
-                                        // } else {
-                                        //     echo 'vide';
-                                        // }
-                                    }
-                                    if ($column == 6 || $column == 7) {
-                                        echo '<button class="weekend" disabled></button>';
-                                        break;
+                                        $signal = 1;
                                     }
                                 }
+                                if ($column == 6 || $column == 7) {
+                                    echo '<button class="weekend" disabled></button>';
+                                } else if ($signal == 1) {
+                                    echo "<a href='reservation.php?id=" . $id_comment . "'><button class='reserver'>$value[login]<br>$value[titre]</button></a>";
+                                } else if ($signal == 0)
+                                    echo "vide";
                                 echo '</td>';
                             }
                             echo '</tr>';
