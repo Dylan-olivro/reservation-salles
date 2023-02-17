@@ -97,8 +97,20 @@ if ($_SESSION['login'] == false) {
                     }
                 }
             }
+            if (isset($_POST['delete_user'])) {
+                if ($_SESSION['login']) {
+                    if ($_POST['delete_user']) {
+                        $delete_user = $bdd->prepare("DELETE FROM utilisateurs WHERE id = ?");
+                        $delete_user->execute([$_SESSION['id']]);
+                        session_destroy();
+                        header('Location: planning.php');
+                    }
+                }
+            }
+
             ?>
-            <input type="submit" name="submit" id="button" value="Edit">
+            <input type="submit" name="submit" class="button" value="Edit">
+            <button type="submit " name="delete_user" value="Delete" class="button delete" onclick="return confirm(`Voulez vous vraiment supprimer votre compte ?`)">Supprimer le compte</button>'
         </form>
 
     </main>

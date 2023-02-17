@@ -116,7 +116,7 @@ if ($_SESSION['login'] == false) {
                     }
                 }
                 ?>
-                <input type="submit" name="submit" id="button" value="Réserver">
+                <input type="submit" name="submit" class="button" value="Réserver">
             </form>
     </main>
 

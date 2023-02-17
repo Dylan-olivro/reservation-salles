@@ -121,7 +121,7 @@ $defined_hour =  substr($result[0]['debut'], 11, -6);
                     }
                 }
                 ?>
-                <input type="submit" name="submit" id="button" value="Réserver">
+                <input type="submit" name="submit" class="button" value="Réserver">
             </form>
     </main>
 

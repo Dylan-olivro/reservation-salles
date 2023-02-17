@@ -65,17 +65,17 @@ if ($_SESSION['login'] == false) {
                     <?php
                     // var_dump($result);
                     if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
-                        echo '<button type="submit "name="delete" value="Supprimer" id="button" onclick="return confirm(`Voulez vous vraiment supprimer votre réservation ?`)">Supprimer</button>';
+                        echo '<button type="submit "name="delete" value="Supprimer" class="button" onclick="return confirm(`Voulez vous vraiment supprimer votre réservation ?`)">Supprimer</button>';
                         if (isset($_POST['delete'])) {
                             $delete_resa = $bdd->prepare("DELETE FROM reservations WHERE id = ?");
                             $delete_resa->execute([$id_comment]);
                             header('Location: planning.php');
                         }
                     } else {
-                        echo '<a href="planning.php"><input id="button" value="Planning"></input></a>';
+                        echo '<a href="planning.php"><input class="button" value="Planning"></input></a>';
                     }
                     if ($_SESSION['login'] == $reservation['login'] || $_SESSION['login'] == 'admin') {
-                        echo "<a href='edit.php?id=" . $id_comment . "'><input id='button' value='Editer'></input></a>";
+                        echo "<a href='edit.php?id=" . $id_comment . "'><input class='button' value='Editer'></input></a>";
                     }
                     ?>
                 </form>

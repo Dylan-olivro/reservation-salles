@@ -71,7 +71,7 @@ require "./include/config.php";
                 }
             }
             ?>
-            <input type="submit" name="submit" value="Log In" id="button">
+            <input type="submit" name="submit" value="Log In" class="button">
         </form>
     </main>
 
