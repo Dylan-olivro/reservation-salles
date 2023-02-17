@@ -103,9 +103,9 @@ if ($_SESSION['login'] == false) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspWeek-end non réservable.</p>";
                     } elseif ($_POST['heure-fin'] == $_POST['heure-debut']) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspMême heure sélectionnée.</p>";
-                    } elseif (strlen($title) > 15) {
+                    } elseif (strlen(cheat_entities($title)) > 15) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspTitre trop long (15 max).</p>";
-                    } elseif (strlen($comment) > 1000) {
+                    } elseif (strlen(cheat_entities($comment)) > 1000) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCommentaire trop long (1000 max).</p>";
                     } elseif ($recupDate->rowCount() > 0) {
                         echo "<p><i class='fa-solid fa-triangle-exclamation'></i>&nbspCette date est déjà réservée.</p>";
