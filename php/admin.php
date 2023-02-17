@@ -58,7 +58,7 @@ if ($_SESSION['login'] != 'admin') {
                             if ($result[$i]['login'] == 'admin') {
                                 echo 'IMPOSSIBLE';
                             } else {
-                                echo "<a href='delete.php?id=" . $result[$i]['id'] . "'><i class='fa-solid fa-xmark'></i></a>";
+                                echo "<a href='delete.php?id=" . $result[$i]['id'] . "' onclick='return confirm(`Voulez vous vraiment supprimer votre réservation ?`)'><i class='fa-solid fa-xmark'></i></a>";
                             }
                             ?>
                         </td>
